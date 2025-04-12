@@ -55,7 +55,7 @@ const MessagesAPI = () => {
     };
     
     axios.request(options).then(function (response) {
-      toast.success('Mensagem enviada com sucesso');
+      toast.success('Pesan berhasil dikirim');
     }).catch(function (error) {
       toastError(error);
     });    
@@ -63,7 +63,7 @@ const MessagesAPI = () => {
 
   const handleSendMediaMessage = async (values) => { 
     try {
-      const firstFile =  file[0];
+      const firstFile = file[0];
       const data = new FormData();
       data.append('number', values.number);
       data.append('body', firstFile.name);
@@ -79,7 +79,7 @@ const MessagesAPI = () => {
       };
       
       axios.request(options).then(function (response) {
-        toast.success('Mensagem enviada com sucesso');
+        toast.success('Media berhasil dikirim');
       }).catch(function (error) {
         toastError(error);
       });      
@@ -156,7 +156,7 @@ const MessagesAPI = () => {
 											size={24}
 											className={classes.buttonProgress}
 										/>
-									) : 'Enviar'}
+									) : 'Kirim'}
 								</Button>
               </Grid>
             </Grid>
@@ -227,7 +227,7 @@ const MessagesAPI = () => {
 											size={24}
 											className={classes.buttonProgress}
 										/>
-									) : 'Enviar'}
+									) : 'Kirim'}
 								</Button>
               </Grid>
             </Grid>
@@ -238,85 +238,102 @@ const MessagesAPI = () => {
   }
 
   return (
-    <Paper
-      className={classes.mainPaper}
-      variant="outlined"
-    >
-      <Typography variant="h5">
-        Documentação para envio de mensagens
+    <Paper className={classes.mainPaper} variant="outlined">
+      <Typography variant="h5" gutterBottom>
+        Dokumentasi API Pengiriman Pesan
       </Typography>
+
       <Typography variant="h6" color="primary" className={classes.elementMargin}>
-        Métodos de Envio
+        Metode Pengiriman
       </Typography>
       <Typography component="div">
         <ol>
-          <li>Mensagens de Texto</li>
-          <li>Mensagens de Media</li>
+          <li>Pesan Teks</li>
+          <li>Pesan Media</li>
         </ol>
       </Typography>
+
       <Typography variant="h6" color="primary" className={classes.elementMargin}>
-        Instruções
+        Petunjuk Penggunaan
       </Typography>
       <Typography className={classes.elementMargin} component="div">
-        <b>Observações importantes</b><br />
+        <b>Catatan Penting</b><br />
         <ul>
-          <li>Antes de enviar mensagens, é necessário o cadastro do token vinculado à conexão que enviará as mensagens. <br/>Para realizar o cadastro acesse o menu "Conexões", clique no botão editar da conexão e insira o token no devido campo.</li>
           <li>
-            O número para envio não deve ter mascara ou caracteres especiais e deve ser composto por:
-              <ul>
-                <li>Código do país</li>
-                <li>DDD</li>
-                <li>Número</li>
-              </ul>
+            Sebelum mengirim pesan, Anda harus mendaftarkan token yang terhubung ke koneksi pengirim pesan.
+            <br/>
+            Untuk mendaftar, buka menu "Koneksi", klik tombol edit pada koneksi dan masukkan token pada kolom yang tersedia.
+          </li>
+          <li>
+            Format nomor tujuan harus tanpa karakter khusus dan terdiri dari:
+            <ul>
+              <li>Kode Negara</li>
+              <li>Kode Area</li>
+              <li>Nomor Telepon</li>
+            </ul>
           </li>
         </ul>
       </Typography>
+
       <Typography variant="h6" color="primary" className={classes.elementMargin}>
-        1. Mensagens de Texto
+        1. Pesan Teks
       </Typography>
-      <Grid container>
+      <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
-          <Typography className={classes.elementMargin} component="div">
-            <p>Seguem abaixo a lista de informações necessárias para envio das mensagens de texto:</p>
-            <b>Endpoint: </b> {getEndpoint()} <br />
-            <b>Método: </b> POST <br />
-            <b>Headers: </b> X_TOKEN (token cadastrado) e Content-Type (application/json) <br />
-            <b>Body: </b> {"{ \"number\": \"5551998917243\", \"body\": \"Sua mensagem\" }"}
-          </Typography>
+          <Paper variant="outlined" style={{ padding: 16 }}>
+            <Typography component="div">
+              <p>Informasi yang diperlukan untuk mengirim pesan teks:</p>
+              <b>Endpoint:</b> {getEndpoint()} <br />
+              <b>Metode:</b> POST <br />
+              <b>Headers:</b> 
+              <ul>
+                <li>X_TOKEN: token yang terdaftar</li>
+                <li>Content-Type: application/json</li>
+              </ul>
+              <b>Body:</b> <pre>{"{\n  \"number\": \"628123456789\",\n  \"body\": \"Pesan Anda\"\n}"}</pre>
+            </Typography>
+          </Paper>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Typography className={classes.elementMargin}>
-            <b>Teste de Envio</b>
-          </Typography>
-          {renderFormMessageText()}
+          <Paper variant="outlined" style={{ padding: 16 }}>
+            <Typography variant="subtitle1" gutterBottom>
+              <b>Uji Pengiriman</b>
+            </Typography>
+            {renderFormMessageText()}
+          </Paper>
         </Grid>
       </Grid>
+
       <Typography variant="h6" color="primary" className={classes.elementMargin}>
-        2. Mensagens de Media
+        2. Pesan Media
       </Typography>
-      <Grid container>
+      <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
-          <Typography className={classes.elementMargin} component="div">
-            <p>Seguem abaixo a lista de informações necessárias para envio das mensagens de texto:</p>
-            <b>Endpoint: </b> {getEndpoint()} <br />
-            <b>Método: </b> POST <br />
-            <b>Headers: </b> X_TOKEN (token cadastrado) e Content-Type (multipart/form-data) <br />
-            <b>FormData: </b> <br />
-            <ul>
-              <li>
-                <b>number: </b> 5551998917243
-              </li>
-              <li>
-                <b>medias: </b> arquivo
-              </li>
-            </ul>
-          </Typography>
+          <Paper variant="outlined" style={{ padding: 16 }}>
+            <Typography component="div">
+              <p>Informasi yang diperlukan untuk mengirim pesan media:</p>
+              <b>Endpoint:</b> {getEndpoint()} <br />
+              <b>Metode:</b> POST <br />
+              <b>Headers:</b>
+              <ul>
+                <li>X_TOKEN: token yang terdaftar</li>
+                <li>Content-Type: multipart/form-data</li>
+              </ul>
+              <b>FormData:</b>
+              <ul>
+                <li><b>number:</b> 628123456789</li>
+                <li><b>medias:</b> file</li>
+              </ul>
+            </Typography>
+          </Paper>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Typography className={classes.elementMargin}>
-            <b>Teste de Envio</b>
-          </Typography>
-          {renderFormMessageMedia()}
+          <Paper variant="outlined" style={{ padding: 16 }}>
+            <Typography variant="subtitle1" gutterBottom>
+              <b>Uji Pengiriman</b>
+            </Typography>
+            {renderFormMessageMedia()}
+          </Paper>
         </Grid>
       </Grid>
     </Paper>

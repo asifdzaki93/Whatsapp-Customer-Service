@@ -196,7 +196,7 @@ export default function Options(props) {
       key: "userRating",
       value,
     });
-    toast.success("Operação atualizada com sucesso.");
+    toast.success("Pengaturan berhasil diperbarui");
     setLoadingUserRating(false);
   }
 
@@ -207,8 +207,7 @@ export default function Options(props) {
       key: "scheduleType",
       value,
     });
-    //toast.success("Oraçãpeo atualizada com sucesso.");
-    toast.success('Operação atualizada com sucesso.', {
+    toast.success('Pengaturan berhasil diperbarui', {
       position: "top-right",
       autoClose: 2000,
       hideProgressBar: false,
@@ -216,7 +215,7 @@ export default function Options(props) {
       pauseOnHover: false,
       draggable: true,
       theme: "light",
-      });
+    });
     setLoadingScheduleType(false);
     if (typeof scheduleTypeChanged === "function") {
       scheduleTypeChanged(value);
@@ -230,7 +229,7 @@ export default function Options(props) {
       key: "call",
       value,
     });
-    toast.success("Operação atualizada com sucesso.");
+    toast.success("Pengaturan berhasil diperbarui");
     setLoadingCallType(false);
   }
 
@@ -241,7 +240,7 @@ export default function Options(props) {
       key: "chatBotType",
       value,
     });
-    toast.success("Operação atualizada com sucesso.");
+    toast.success("Pengaturan berhasil diperbarui");
     setLoadingChatbotType(false);
   }
 
@@ -252,11 +251,8 @@ export default function Options(props) {
       key: "CheckMsgIsGroup",
       value,
     });
-    toast.success("Operação atualizada com sucesso.");
-    setCheckMsgIsGroupType(false);
-    /*     if (typeof scheduleTypeChanged === "function") {
-          scheduleTypeChanged(value);
-        } */
+    toast.success("Pengaturan berhasil diperbarui");
+    setCheckMsgIsGroup(false);
   }
   
   {/*NOVO CÓDIGO*/}  
@@ -267,7 +263,7 @@ export default function Options(props) {
       key: "sendGreetingAccepted",
       value,
     });
-	toast.success("Operação atualizada com sucesso.");
+    toast.success("Pengaturan berhasil diperbarui");
     setLoadingSendGreetingAccepted(false);
   }  
   
@@ -281,8 +277,7 @@ export default function Options(props) {
       key: "sendMsgTransfTicket",
       value,
     });
-
-    toast.success("Operação atualizada com sucesso.");
+    toast.success("Pengaturan berhasil diperbarui");
     setLoadingSettingsTransfTicket(false);
   } 
  
@@ -293,7 +288,7 @@ export default function Options(props) {
       key: "ipixc",
       value,
     });
-    toast.success("Operação atualizada com sucesso.");
+    toast.success("Pengaturan berhasil diperbarui");
     setLoadingIpIxcType(false);
   }
 
@@ -304,7 +299,7 @@ export default function Options(props) {
       key: "tokenixc",
       value,
     });
-    toast.success("Operação atualizada com sucesso.");
+    toast.success("Pengaturan berhasil diperbarui");
     setLoadingTokenIxcType(false);
   }
 
@@ -315,7 +310,7 @@ export default function Options(props) {
       key: "ipmkauth",
       value,
     });
-    toast.success("Operação atualizada com sucesso.");
+    toast.success("Pengaturan berhasil diperbarui");
     setLoadingIpMkauthType(false);
   }
 
@@ -326,7 +321,7 @@ export default function Options(props) {
       key: "clientidmkauth",
       value,
     });
-    toast.success("Operação atualizada com sucesso.");
+    toast.success("Pengaturan berhasil diperbarui");
     setLoadingClientIdMkauthType(false);
   }
 
@@ -337,7 +332,7 @@ export default function Options(props) {
       key: "clientsecretmkauth",
       value,
     });
-    toast.success("Operação atualizada com sucesso.");
+    toast.success("Pengaturan berhasil diperbarui");
     setLoadingClientSecrectMkauthType(false);
   }
 
@@ -348,156 +343,130 @@ export default function Options(props) {
       key: "asaas",
       value,
     });
-    toast.success("Operação atualizada com sucesso.");
+    toast.success("Pengaturan berhasil diperbarui");
     setLoadingAsaasType(false);
   }
   return (
     <>
-      <Grid spacing={3} container>
-        {/* <Grid xs={12} item>
-                    <Title>Configurações Gerais</Title>
-                </Grid> */}
-        <Grid xs={12} sm={6} md={4} item>
-          <FormControl className={classes.selectContainer}>
-            <InputLabel id="ratings-label">Avaliações</InputLabel>
-            <Select
-              labelId="ratings-label"
-              value={userRating}
-              onChange={async (e) => {
-                handleChangeUserRating(e.target.value);
-              }}
-            >
-              <MenuItem value={"disabled"}>Desabilitadas</MenuItem>
-              <MenuItem value={"enabled"}>Habilitadas</MenuItem>
-            </Select>
-            <FormHelperText>
-              {loadingUserRating && "Atualizando..."}
-            </FormHelperText>
-          </FormControl>
+      <Grid container spacing={3} className={classes.container}>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <FormControl className={classes.selectContainer}>
+                  <InputLabel>Penilaian</InputLabel>
+                  <Select
+                    value={userRating}
+                    onChange={(e) => handleChangeUserRating(e.target.value)}
+                    disabled={loadingUserRating}
+                  >
+                    <MenuItem value="enabled">Aktif</MenuItem>
+                    <MenuItem value="disabled">Tidak Aktif</MenuItem>
+                  </Select>
+                  <FormHelperText>
+                    Aktifkan atau nonaktifkan fitur penilaian
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl className={classes.selectContainer}>
+                  <InputLabel>Penjadwalan</InputLabel>
+                  <Select
+                    value={scheduleType}
+                    onChange={(e) => handleScheduleType(e.target.value)}
+                    disabled={loadingScheduleType}
+                  >
+                    <MenuItem value="enabled">Aktif</MenuItem>
+                    <MenuItem value="disabled">Tidak Aktif</MenuItem>
+                  </Select>
+                  <FormHelperText>
+                    Aktifkan atau nonaktifkan fitur penjadwalan
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl className={classes.selectContainer}>
+                  <InputLabel>Panggilan</InputLabel>
+                  <Select
+                    value={callType}
+                    onChange={(e) => handleCallType(e.target.value)}
+                    disabled={loadingCallType}
+                  >
+                    <MenuItem value="enabled">Aktif</MenuItem>
+                    <MenuItem value="disabled">Tidak Aktif</MenuItem>
+                  </Select>
+                  <FormHelperText>
+                    Aktifkan atau nonaktifkan fitur panggilan
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl className={classes.selectContainer}>
+                  <InputLabel>Chatbot</InputLabel>
+                  <Select
+                    value={chatbotType}
+                    onChange={(e) => handleChatbotType(e.target.value)}
+                    disabled={loadingChatbotType}
+                  >
+                    <MenuItem value="enabled">Aktif</MenuItem>
+                    <MenuItem value="disabled">Tidak Aktif</MenuItem>
+                  </Select>
+                  <FormHelperText>
+                    Aktifkan atau nonaktifkan fitur chatbot
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl className={classes.selectContainer}>
+                  <InputLabel>Pemeriksaan Grup</InputLabel>
+                  <Select
+                    value={CheckMsgIsGroup}
+                    onChange={(e) => handleGroupType(e.target.value)}
+                    disabled={loadingCheckMsgIsGroup}
+                  >
+                    <MenuItem value="enabled">Aktif</MenuItem>
+                    <MenuItem value="disabled">Tidak Aktif</MenuItem>
+                  </Select>
+                  <FormHelperText>
+                    Aktifkan atau nonaktifkan pemeriksaan pesan grup
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl className={classes.selectContainer}>
+                  <InputLabel>Sapaan</InputLabel>
+                  <Select
+                    value={SendGreetingAccepted}
+                    onChange={(e) => handleSendGreetingAccepted(e.target.value)}
+                    disabled={loadingSendGreetingAccepted}
+                  >
+                    <MenuItem value="enabled">Aktif</MenuItem>
+                    <MenuItem value="disabled">Tidak Aktif</MenuItem>
+                  </Select>
+                  <FormHelperText>
+                    Aktifkan atau nonaktifkan fitur sapaan
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl className={classes.selectContainer}>
+                  <InputLabel>Transfer Tiket</InputLabel>
+                  <Select
+                    value={SettingsTransfTicket}
+                    onChange={(e) => handleSettingsTransfTicket(e.target.value)}
+                    disabled={loadingSettingsTransfTicket}
+                  >
+                    <MenuItem value="enabled">Aktif</MenuItem>
+                    <MenuItem value="disabled">Tidak Aktif</MenuItem>
+                  </Select>
+                  <FormHelperText>
+                    Aktifkan atau nonaktifkan fitur transfer tiket
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+            </Grid>
+          </Paper>
         </Grid>
-        <Grid xs={12} sm={6} md={4} item>
-          <FormControl className={classes.selectContainer}>
-            <InputLabel id="schedule-type-label">
-              Gerenciamento de Expediente
-            </InputLabel>
-            <Select
-              labelId="schedule-type-label"
-              value={scheduleType}
-              onChange={async (e) => {
-                handleScheduleType(e.target.value);
-              }}
-            >
-              <MenuItem value={"disabled"}>Desabilitado</MenuItem>
-              <MenuItem value={"queue"}>Fila</MenuItem>
-              <MenuItem value={"company"}>Empresa</MenuItem>
-            </Select>
-            <FormHelperText>
-              {loadingScheduleType && "Atualizando..."}
-            </FormHelperText>
-          </FormControl>
-        </Grid>
-        <Grid xs={12} sm={6} md={4} item>
-          <FormControl className={classes.selectContainer}>
-            <InputLabel id="group-type-label">
-              Ignorar Mensagens de Grupos
-            </InputLabel>
-            <Select
-              labelId="group-type-label"
-              value={CheckMsgIsGroup}
-              onChange={async (e) => {
-                handleGroupType(e.target.value);
-              }}
-            >
-              <MenuItem value={"disabled"}>Desativado</MenuItem>
-              <MenuItem value={"enabled"}>Ativado</MenuItem>
-            </Select>
-            <FormHelperText>
-              {loadingScheduleType && "Atualizando..."}
-            </FormHelperText>
-          </FormControl>
-        </Grid>
-        <Grid xs={12} sm={6} md={4} item>
-          <FormControl className={classes.selectContainer}>
-            <InputLabel id="call-type-label">
-              Aceitar Chamada
-            </InputLabel>
-            <Select
-              labelId="call-type-label"
-              value={callType}
-              onChange={async (e) => {
-                handleCallType(e.target.value);
-              }}
-            >
-              <MenuItem value={"disabled"}>Não Aceitar</MenuItem>
-              <MenuItem value={"enabled"}>Aceitar</MenuItem>
-            </Select>
-            <FormHelperText>
-              {loadingCallType && "Atualizando..."}
-            </FormHelperText>
-          </FormControl>
-        </Grid>
-        <Grid xs={12} sm={6} md={4} item>
-          <FormControl className={classes.selectContainer}>
-            <InputLabel id="chatbot-type-label">
-              Tipo Chatbot
-            </InputLabel>
-            <Select
-              labelId="chatbot-type-label"
-              value={chatbotType}
-              onChange={async (e) => {
-                handleChatbotType(e.target.value);
-              }}
-            >
-              <MenuItem value={"text"}>Texto</MenuItem>
-			 {/*<MenuItem value={"button"}>Botão</MenuItem>*/}
-             {/*<MenuItem value={"list"}>Lista</MenuItem>*/}
-            </Select>
-            <FormHelperText>
-              {loadingChatbotType && "Atualizando..."}
-            </FormHelperText>
-          </FormControl>
-        </Grid>
-		{/* ENVIAR SAUDAÇÃO AO ACEITAR O TICKET */}
-        <Grid xs={12} sm={6} md={4} item>
-          <FormControl className={classes.selectContainer}>
-            <InputLabel id="sendGreetingAccepted-label">Enviar saudação ao aceitar o ticket</InputLabel>
-            <Select
-              labelId="sendGreetingAccepted-label"
-              value={SendGreetingAccepted}
-              onChange={async (e) => {
-                handleSendGreetingAccepted(e.target.value);
-              }}
-            >
-              <MenuItem value={"disabled"}>Desabilitado</MenuItem>
-              <MenuItem value={"enabled"}>Habilitado</MenuItem>
-            </Select>
-            <FormHelperText>
-              {loadingSendGreetingAccepted && "Atualizando..."}
-            </FormHelperText>
-          </FormControl>
-        </Grid>
-		{/* ENVIAR SAUDAÇÃO AO ACEITAR O TICKET */}
-		
-		{/* ENVIAR MENSAGEM DE TRANSFERENCIA DE SETOR/ATENDENTE */}
-        <Grid xs={12} sm={6} md={4} item>
-          <FormControl className={classes.selectContainer}>
-            <InputLabel id="sendMsgTransfTicket-label">Enviar mensagem de transferencia de Fila/agente</InputLabel>
-            <Select
-              labelId="sendMsgTransfTicket-label"
-              value={SettingsTransfTicket}
-              onChange={async (e) => {
-                handleSettingsTransfTicket(e.target.value);
-              }}
-            >
-              <MenuItem value={"disabled"}>Desabilitado</MenuItem>
-              <MenuItem value={"enabled"}>Habilitado</MenuItem>
-            </Select>
-            <FormHelperText>
-              {loadingSettingsTransfTicket && "Atualizando..."}
-            </FormHelperText>
-          </FormControl>
-        </Grid>
-		
       </Grid>
       <Grid spacing={3} container>
         <Tabs
@@ -511,12 +480,8 @@ export default function Options(props) {
             marginTop: 20
           }}
         >
-          <Tab
-
-            label="INTEGRAÇÕES" />
-
+          <Tab label="Integrasi" />
         </Tabs>
-
       </Grid>
       {/*-----------------ASAAS-----------------*/}
       <Grid spacing={3} container
@@ -529,7 +494,6 @@ export default function Options(props) {
           className={classes.tab}
         >
           <Tab label="ASAAS" />
-
         </Tabs>
         <Grid xs={12} sm={12} md={12} item>
           <FormControl className={classes.selectContainer}>
@@ -537,7 +501,7 @@ export default function Options(props) {
               id="asaas"
               name="asaas"
               margin="dense"
-              label="Token Asaas"
+              label="Token ASAAS"
               variant="outlined"
               value={asaasType}
               onChange={async (e) => {
@@ -546,7 +510,7 @@ export default function Options(props) {
             >
             </TextField>
             <FormHelperText>
-              {loadingAsaasType && "Atualizando..."}
+              {loadingAsaasType && "Memperbarui..."}
             </FormHelperText>
           </FormControl>
         </Grid>

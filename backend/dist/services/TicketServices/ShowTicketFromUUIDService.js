@@ -19,7 +19,14 @@ const ShowTicketUUIDService = async (uuid) => {
             {
                 model: Contact_1.default,
                 as: "contact",
-                attributes: ["id", "name", "number", "email", "profilePicUrl"],
+                attributes: [
+                    "id",
+                    "name",
+                    "number",
+                    "email",
+                    "ignoreMessages",
+                    "profilePicUrl"
+                ],
                 include: ["extraInfo"]
             },
             {

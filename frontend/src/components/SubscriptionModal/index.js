@@ -1,11 +1,10 @@
 import React, { useEffect, useRef } from "react";
-
-
 import { makeStyles } from "@material-ui/core/styles";
 import { green } from "@material-ui/core/colors";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import CheckoutPage from "../CheckoutPage/";
+import api from "../../services/api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,17 +15,14 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
     flex: 1,
   },
-
   extraAttr: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
   },
-
   btnWrapper: {
     position: "relative",
   },
-
   buttonProgress: {
     color: green[500],
     position: "absolute",
@@ -37,11 +33,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-const ContactModal = ({ open, onClose, Invoice, contactId, initialValues, onSave }) => {
+const ContactModal = ({ open, onClose, plan, contactId, initialValues, onSave }) => {
   const classes = useStyles();
   const isMounted = useRef(true);
-
 
   useEffect(() => {
     return () => {
@@ -49,17 +43,55 @@ const ContactModal = ({ open, onClose, Invoice, contactId, initialValues, onSave
     };
   }, []);
 
-
   const handleClose = () => {
     onClose();
   };
+
+  const handlePayment = async (values) => {
+    try {
+      const { data } = await api.post("/subscription/payment", {
+        planId: plan.id,
+        price: Number(plan.price),
+        users: Number(plan.users),
+        connections: Number(plan.connections),
+        queues: Number(plan.queues),
+        email: values.email,
+        name: values.name,
+        phone: values.phone
+      });
+
+      if (data.token) {
+        window.snap.pay(data.token, {
+          onSuccess: function(result) {
+            window.location.href = data.redirect_url;
+          },
+          onPending: function(result) {
+            window.location.href = data.redirect_url;
+          },
+          onError: function(result) {
+            window.location.href = data.redirect_url;
+          },
+          onClose: function() {
+            window.location.href = data.redirect_url;
+          }
+        });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  if (!plan) {
+    return null;
+  }
 
   return (
     <div className={classes.root}>
       <Dialog open={open} onClose={handleClose} maxWidth="md" scroll="paper">
         <DialogContent dividers>
           <CheckoutPage
-            Invoice={Invoice}
+            plan={plan}
+            onSubmit={handlePayment}
           />
         </DialogContent>
       </Dialog>

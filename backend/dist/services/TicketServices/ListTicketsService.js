@@ -25,7 +25,14 @@ const ListTicketsService = async ({ searchParam = "", pageNumber = "1", queueIds
         {
             model: Contact_1.default,
             as: "contact",
-            attributes: ["id", "name", "number", "email", "profilePicUrl"]
+            attributes: [
+                "id",
+                "name",
+                "number",
+                "email",
+                "ignoreMessages",
+                "profilePicUrl"
+            ]
         },
         {
             model: Queue_1.default,
@@ -46,7 +53,7 @@ const ListTicketsService = async ({ searchParam = "", pageNumber = "1", queueIds
             model: Whatsapp_1.default,
             as: "whatsapp",
             attributes: ["name"]
-        },
+        }
     ];
     if (showAll === "true") {
         whereCondition = { queueId: { [sequelize_1.Op.or]: [queueIds, null] } };

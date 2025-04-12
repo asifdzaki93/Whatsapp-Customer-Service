@@ -32,7 +32,10 @@ import CampaignReport from "../pages/CampaignReport";
 import Annoucements from "../pages/Annoucements";
 import Chat from "../pages/Chat";
 import ToDoList from "../pages/ToDoList/";
-import Subscription from "../pages/Subscription/";
+import Subscription from "../pages/Subscription";
+import SubscriptionSuccess from "../pages/Subscription/Success";
+import SubscriptionError from "../pages/Subscription/Error";
+import SubscriptionPending from "../pages/Subscription/Pending";
 import Files from "../pages/Files/";
 import Prompts from "../pages/Prompts";
 import QueueIntegration from "../pages/QueueIntegration";
@@ -131,6 +134,24 @@ const Routes = () => {
                   exact
                   path="/subscription"
                   component={Subscription}
+                  isPrivate
+                />
+                <Route
+                  exact
+                  path="/subscription/success"
+                  component={SubscriptionSuccess}
+                  isPrivate
+                />
+                <Route
+                  exact
+                  path="/subscription/error"
+                  component={SubscriptionError}
+                  isPrivate
+                />
+                <Route
+                  exact
+                  path="/subscription/pending"
+                  component={SubscriptionPending}
                   isPrivate
                 />
                 <Route exact path="/chats/:id?" component={Chat} isPrivate />

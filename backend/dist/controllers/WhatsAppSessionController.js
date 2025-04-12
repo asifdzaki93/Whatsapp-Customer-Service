@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const wbot_1 = require("../libs/wbot");
 const ShowWhatsAppService_1 = __importDefault(require("../services/WhatsappService/ShowWhatsAppService"));
 const StartWhatsAppSession_1 = require("../services/WbotServices/StartWhatsAppSession");
-const UpdateWhatsAppService_1 = __importDefault(require("../services/WhatsappService/UpdateWhatsAppService"));
 const store = async (req, res) => {
     const { whatsappId } = req.params;
     const { companyId } = req.user;
@@ -17,11 +16,8 @@ const store = async (req, res) => {
 const update = async (req, res) => {
     const { whatsappId } = req.params;
     const { companyId } = req.user;
-    const { whatsapp } = await (0, UpdateWhatsAppService_1.default)({
-        whatsappId,
-        companyId,
-        whatsappData: { session: "" }
-    });
+    const whatsapp = await (0, ShowWhatsAppService_1.default)(whatsappId, companyId);
+    await whatsapp.update({ session: "" });
     await (0, StartWhatsAppSession_1.StartWhatsAppSession)(whatsapp, companyId);
     return res.status(200).json({ message: "Starting session." });
 };

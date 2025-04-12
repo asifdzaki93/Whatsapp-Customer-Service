@@ -1,0 +1,393 @@
+import React, { useState, useEffect, useReducer } from "react";
+import { toast } from "react-toastify";
+
+import { makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+import Button from "@material-ui/core/Button";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import IconButton from "@material-ui/core/IconButton";
+import SearchIcon from "@material-ui/icons/Search";
+import TextField from "@material-ui/core/TextField";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import EditIcon from "@material-ui/icons/Edit";
+import AutorenewIcon from "@material-ui/icons/Autorenew";
+import DeleteIcon from "@material-ui/icons/Delete";
+
+import MainContainer from "../../components/MainContainer";
+import MainHeader from "../../components/MainHeader";
+import MainHeaderButtonsWrapper from "../../components/MainHeaderButtonsWrapper";
+import Title from "../../components/Title";
+import SubscriptionModal from "../../components/SubscriptionModal";
+import api from "../../services/api";
+import { i18n } from "../../translate/i18n";
+import TableRowSkeleton from "../../components/TableRowSkeleton";
+import UserModal from "../../components/UserModal";
+import ConfirmationModal from "../../components/ConfirmationModal";
+import toastError from "../../errors/toastError";
+import { socketConnection } from "../../services/socket";
+
+import moment from "moment";
+
+const reducer = (state, action) => {
+  if (action.type === "LOAD_INVOICES") {
+    const invoices = action.payload;
+    const newUsers = [];
+
+    invoices.forEach((user) => {
+      const userIndex = state.findIndex((u) => u.id === user.id);
+      if (userIndex !== -1) {
+        state[userIndex] = user;
+      } else {
+        newUsers.push(user);
+      }
+    });
+
+    return [...state, ...newUsers];
+  }
+
+  if (action.type === "UPDATE_USERS") {
+    const user = action.payload;
+    const userIndex = state.findIndex((u) => u.id === user.id);
+
+    if (userIndex !== -1) {
+      state[userIndex] = user;
+      return [...state];
+    } else {
+      return [user, ...state];
+    }
+  }
+
+  if (action.type === "DELETE_USER") {
+    const userId = action.payload;
+
+    const userIndex = state.findIndex((u) => u.id === userId);
+    if (userIndex !== -1) {
+      state.splice(userIndex, 1);
+    }
+    return [...state];
+  }
+
+  if (action.type === "RESET") {
+    return [];
+  }
+};
+
+const useStyles = makeStyles((theme) => ({
+  mainPaper: {
+    flex: 1,
+    padding: theme.spacing(1),
+    overflowY: "scroll",
+    ...theme.scrollbarStyles,
+  },
+  renewalDialog: {
+    minWidth: 400
+  }
+}));
+
+const Invoices = () => {
+  const classes = useStyles();
+
+  const [loading, setLoading] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+  const [searchParam, setSearchParam] = useState("");
+  const [invoices, dispatch] = useReducer(reducer, []);
+  const [storagePlans, setStoragePlans] = React.useState([]);
+  const [selectedContactId, setSelectedContactId] = useState(null);
+  const [contactModalOpen, setContactModalOpen] = useState(false);
+  const [renewalModalOpen, setRenewalModalOpen] = useState(false);
+  const [selectedInvoice, setSelectedInvoice] = useState(null);
+  const [availablePlans, setAvailablePlans] = useState([]);
+  const [selectedPlan, setSelectedPlan] = useState("");
+
+  const handleOpenContactModal = (invoices) => {
+    setStoragePlans(invoices);
+    setSelectedContactId(null);
+    setContactModalOpen(true);
+  };
+
+  const handleCloseContactModal = () => {
+    setSelectedContactId(null);
+    setContactModalOpen(false);
+  };
+
+  const handleOpenRenewalModal = async (invoice) => {
+    setSelectedInvoice(invoice);
+    try {
+      const { data } = await api.get("/plans");
+      setAvailablePlans(data);
+      setRenewalModalOpen(true);
+    } catch (err) {
+      toastError(err);
+    }
+  };
+
+  const handleCloseRenewalModal = () => {
+    setSelectedInvoice(null);
+    setSelectedPlan("");
+    setRenewalModalOpen(false);
+  };
+
+  const handleRenewal = async () => {
+    if (!selectedPlan) {
+      toast.error("Silakan pilih paket langganan");
+      return;
+    }
+
+    try {
+      const plan = availablePlans.find(p => p.id === selectedPlan);
+      
+      // Cek apakah sudah ada invoice perpanjangan yang pending
+      const existingInvoices = invoices.filter(inv => 
+        inv.detail.includes("Perpanjangan Langganan") && 
+        inv.status === "pending" &&
+        moment(inv.dueDate).isAfter(moment())
+      );
+
+      if (existingInvoices.length > 0) {
+        toast.error("Sudah ada invoice perpanjangan yang belum dibayar");
+        return;
+      }
+
+      const { data } = await api.post("/invoices", {
+        companyId: selectedInvoice.companyId,
+        detail: `Perpanjangan Langganan - ${plan.name}`,
+        value: plan.value,
+        dueDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+        status: "pending"
+      });
+
+      toast.success("Invoice perpanjangan berhasil dibuat");
+      handleCloseRenewalModal();
+      // Refresh invoice list
+      const { data: invoicesData } = await api.get("/invoices/all", {
+        params: { searchParam, pageNumber },
+      });
+      dispatch({ type: "LOAD_INVOICES", payload: invoicesData });
+    } catch (err) {
+      toastError(err);
+    }
+  };
+
+  const handleDeleteInvoice = async (invoiceId) => {
+    try {
+      await api.delete(`/invoices/${invoiceId}`);
+      toast.success("Invoice berhasil dihapus");
+      // Refresh invoice list
+      const { data } = await api.get("/invoices/all", {
+        params: { searchParam, pageNumber },
+      });
+      dispatch({ type: "LOAD_INVOICES", payload: data });
+    } catch (err) {
+      toastError(err);
+    }
+  };
+
+  useEffect(() => {
+    dispatch({ type: "RESET" });
+    setPageNumber(1);
+  }, [searchParam]);
+
+  useEffect(() => {
+    setLoading(true);
+    const delayDebounceFn = setTimeout(() => {
+      const fetchInvoices = async () => {
+        try {
+          const { data } = await api.get("/invoices/all", {
+            params: { searchParam, pageNumber },
+          });
+          dispatch({ type: "LOAD_INVOICES", payload: data });
+          setHasMore(data.hasMore);
+          setLoading(false);
+        } catch (err) {
+          toastError(err);
+        }
+      };
+      fetchInvoices();
+    }, 500);
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchParam, pageNumber]);
+
+  const loadMore = () => {
+    setPageNumber((prevState) => prevState + 1);
+  };
+
+  const handleScroll = (e) => {
+    if (!hasMore || loading) return;
+    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+    if (scrollHeight - (scrollTop + 100) < clientHeight) {
+      loadMore();
+    }
+  };
+
+  const rowStyle = (record) => {
+    const hoje = moment(moment()).format("DD/MM/yyyy");
+    const vencimento = moment(record.dueDate).format("DD/MM/yyyy");
+    var diff = moment(vencimento, "DD/MM/yyyy").diff(moment(hoje, "DD/MM/yyyy"));
+    var dias = moment.duration(diff).asDays();    
+    if (dias < 0 && record.status !== "paid") {
+      return { backgroundColor: "#ffbcbc9c" };
+    }
+  };
+
+  const rowStatus = (record) => {
+    const hoje = moment(moment()).format("DD/MM/yyyy");
+    const vencimento = moment(record.dueDate).format("DD/MM/yyyy");
+    var diff = moment(vencimento, "DD/MM/yyyy").diff(moment(hoje, "DD/MM/yyyy"));
+    var dias = moment.duration(diff).asDays();    
+    const status = record.status;
+    if (status === "paid") {
+      return "Lunas";
+    }
+    if (dias < 0) {
+      return "Jatuh Tempo";
+    } else {
+      return "Belum Lunas"
+    }
+  }
+
+  return (
+    <MainContainer>
+      <SubscriptionModal
+        open={contactModalOpen}
+        onClose={handleCloseContactModal}
+        aria-labelledby="form-dialog-title"
+        Invoice={storagePlans}
+        contactId={selectedContactId}
+      />
+
+      <Dialog 
+        open={renewalModalOpen} 
+        onClose={handleCloseRenewalModal}
+        classes={{ paper: classes.renewalDialog }}
+      >
+        <DialogTitle>Perpanjangan Langganan</DialogTitle>
+        <DialogContent>
+          <FormControl fullWidth margin="normal">
+            <Select
+              value={selectedPlan}
+              onChange={(e) => setSelectedPlan(e.target.value)}
+              displayEmpty
+            >
+              <MenuItem value="" disabled>
+                Pilih Paket Langganan
+              </MenuItem>
+              {availablePlans.map((plan) => (
+                <MenuItem key={plan.id} value={plan.id}>
+                  {plan.name} - {plan.users} Pengguna, {plan.connections} Koneksi
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseRenewalModal} color="secondary">
+            Batal
+          </Button>
+          <Button onClick={handleRenewal} color="primary">
+            Buat Invoice
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <MainHeader>
+        <Title>Faktur</Title>
+      </MainHeader>
+      <Paper
+        className={classes.mainPaper}
+        variant="outlined"
+        onScroll={handleScroll}
+      >
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">ID</TableCell>
+              <TableCell align="center">Detail</TableCell>
+              <TableCell align="center">Jumlah</TableCell>
+              <TableCell align="center">Tgl Jatuh Tempo</TableCell>
+              <TableCell align="center">Status</TableCell>
+              <TableCell align="center">Aksi</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <>
+              {invoices.map((invoice) => (
+                <TableRow style={rowStyle(invoice)} key={invoice.id}>
+                  <TableCell align="center">{invoice.id}</TableCell>
+                  <TableCell align="center">{invoice.detail}</TableCell>
+                  <TableCell style={{ fontWeight: 'bold' }} align="center">
+                    {invoice.value.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}
+                  </TableCell>
+                  <TableCell align="center">
+                    {moment(invoice.dueDate).format("DD/MM/YYYY")}
+                  </TableCell>
+                  <TableCell style={{ fontWeight: 'bold' }} align="center">
+                    {rowStatus(invoice)}
+                  </TableCell>
+                  <TableCell align="center">
+                    {rowStatus(invoice) !== "Lunas" ? (
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        color="secondary"
+                        onClick={() => handleOpenContactModal(invoice)}
+                      >
+                        BAYAR
+                      </Button>
+                    ) : (
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        disabled
+                      >
+                        LUNAS
+                      </Button>
+                    )}
+                    {isExpired(invoice) && (
+                      <IconButton
+                        size="small"
+                        color="primary"
+                        onClick={() => handleOpenRenewalModal(invoice)}
+                        title="Perpanjang Langganan"
+                      >
+                        <AutorenewIcon />
+                      </IconButton>
+                    )}
+                    <IconButton
+                      size="small"
+                      color="error"
+                      onClick={() => handleDeleteInvoice(invoice.id)}
+                      title="Hapus Invoice"
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+              {loading && <TableRowSkeleton columns={4} />}
+            </>
+          </TableBody>
+        </Table>
+      </Paper>
+    </MainContainer>
+  );
+};
+
+const isExpired = (invoice) => {
+  return moment(invoice.dueDate).isBefore(moment()) && invoice.status === "pending";
+};
+
+export default Invoices;

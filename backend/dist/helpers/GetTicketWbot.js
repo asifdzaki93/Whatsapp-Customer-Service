@@ -7,7 +7,7 @@ const wbot_1 = require("../libs/wbot");
 const GetDefaultWhatsApp_1 = __importDefault(require("./GetDefaultWhatsApp"));
 const GetTicketWbot = async (ticket) => {
     if (!ticket.whatsappId) {
-        const defaultWhatsapp = await (0, GetDefaultWhatsApp_1.default)(ticket.user.id);
+        const defaultWhatsapp = await (0, GetDefaultWhatsApp_1.default)(ticket.companyId, ticket.userId);
         await ticket.$set("whatsapp", defaultWhatsapp);
     }
     const wbot = (0, wbot_1.getWbot)(ticket.whatsappId);

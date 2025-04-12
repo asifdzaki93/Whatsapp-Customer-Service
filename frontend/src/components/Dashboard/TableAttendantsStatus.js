@@ -69,26 +69,26 @@ export default function TableAttendantsStatus(props) {
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Nome</TableCell>
-                        <TableCell align="center">Avaliações</TableCell>
-                        <TableCell align="center">T.M. de Atendimento</TableCell>
-                        <TableCell align="center">Status (Atual)</TableCell>
+                        <TableCell>Nama</TableCell>
+                        <TableCell align="center">Penilaian</TableCell>
+                        <TableCell align="center">Rata-rata Waktu Layanan</TableCell>
+                        <TableCell align="center">Status (Sekarang)</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {renderList()}
                     {/* <TableRow>
-                        <TableCell>Nome 4</TableCell>
+                        <TableCell>Nama 4</TableCell>
                         <TableCell align="center">10</TableCell>
-                        <TableCell align="center">10 minutos</TableCell>
+                        <TableCell align="center">10 menit</TableCell>
                         <TableCell align="center">
                             <CheckCircleIcon className={classes.off} />
                         </TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell>Nome 5</TableCell>
+                        <TableCell>Nama 5</TableCell>
                         <TableCell align="center">10</TableCell>
-                        <TableCell align="center">10 minutos</TableCell>
+                        <TableCell align="center">10 menit</TableCell>
                         <TableCell align="center">
                             <CheckCircleIcon className={classes.on} />
                         </TableCell>

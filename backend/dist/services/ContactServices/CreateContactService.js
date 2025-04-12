@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const Contact_1 = __importDefault(require("../../models/Contact"));
-const CreateContactService = async ({ name, number, email = "", companyId, extraInfo = [] }) => {
+const CreateContactService = async ({ name, number, email = "", ignoreMessages = false, companyId, extraInfo = [] }) => {
     const numberExists = await Contact_1.default.findOne({
         where: { number, companyId }
     });
@@ -16,6 +16,7 @@ const CreateContactService = async ({ name, number, email = "", companyId, extra
         name,
         number,
         email,
+        ignoreMessages,
         extraInfo,
         companyId
     }, {

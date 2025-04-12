@@ -267,8 +267,8 @@ const Dashboard = () => {
                 value={filterType}
                 onChange={(e) => handleChangeFilterType(e.target.value)}
               >
-                <MenuItem value={1}>Filtro por Data</MenuItem>
-                <MenuItem value={2}>Filtro por Período</MenuItem>
+                <MenuItem value={1}>Cari Data</MenuItem>
+                <MenuItem value={2}>Cari Período</MenuItem>
               </Select>
               <FormHelperText>Selecione o período desejado</FormHelperText>
             </FormControl>

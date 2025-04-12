@@ -34,13 +34,13 @@ function SchedulesForm(props) {
   const classes = useStyles();
 
   const [schedules, setSchedules] = useState([
-    { weekday: "Segunda-feira", weekdayEn: "monday", startTime: "", endTime: "", },
-    { weekday: "Terça-feira", weekdayEn: "tuesday", startTime: "", endTime: "", },
-    { weekday: "Quarta-feira", weekdayEn: "wednesday", startTime: "", endTime: "", },
-    { weekday: "Quinta-feira", weekdayEn: "thursday", startTime: "", endTime: "", },
-    { weekday: "Sexta-feira", weekdayEn: "friday", startTime: "", endTime: "" },
-    { weekday: "Sábado", weekdayEn: "saturday", startTime: "", endTime: "" },
-    { weekday: "Domingo", weekdayEn: "sunday", startTime: "", endTime: "" },
+    { weekday: "Senin", weekdayEn: "Monday", startTime: "", endTime: "", },
+    { weekday: "Selasa", weekdayEn: "Tuesday", startTime: "", endTime: "", },
+    { weekday: "Rabu", weekdayEn: "Wednesday", startTime: "", endTime: "", },
+    { weekday: "Kamis", weekdayEn: "Thursday", startTime: "", endTime: "", },
+    { weekday: "Jumat", weekdayEn: "Friday", startTime: "", endTime: "" },
+    { weekday: "Sabtu", weekdayEn: "Saturday", startTime: "", endTime: "" },
+    { weekday: "Minggu", weekdayEn: "Sunday", startTime: "", endTime: "" },
   ]);
 
   useEffect(() => {
@@ -69,14 +69,14 @@ function SchedulesForm(props) {
         <Form className={classes.fullWidth}>
           <FieldArray
             name="schedules"
-            render={(arrayHelpers) => (
+            render={() => (
               <Grid spacing={4} container>
                 {values.schedules.map((item, index) => {
                   return (
                       <Container>
                           <FastField
                             as={TextField}
-                            label="Dia da Semana"
+                            label="Hari"
                             name={`schedules[${index}].weekday`}
                             disabled
                             variant="outlined"
@@ -88,7 +88,7 @@ function SchedulesForm(props) {
                             >
                             {({ field }) => (
                               <NumberFormat
-                                label="Hora de Inicial"
+                                label="Waktu Mulai"
                                 {...field}
                                 variant="outlined"
                                 margin="dense"
@@ -103,7 +103,7 @@ function SchedulesForm(props) {
                             >
                             {({ field }) => (
                               <NumberFormat
-                                label="Hora de Final"
+                                label="Waktu Selesai"
                                 {...field}
                                 variant="outlined"
                                 margin="dense"
@@ -113,9 +113,7 @@ function SchedulesForm(props) {
                               />
                             )}
                           </FastField>
-
                       </Container>
-
                   );
                 })}
               </Grid>

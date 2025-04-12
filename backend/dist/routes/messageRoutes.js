@@ -37,5 +37,5 @@ const upload = (0, multer_1.default)(upload_1.default);
 messageRoutes.get("/messages/:ticketId", isAuth_1.default, MessageController.index);
 messageRoutes.post("/messages/:ticketId", isAuth_1.default, upload.array("medias"), MessageController.store);
 messageRoutes.delete("/messages/:messageId", isAuth_1.default, MessageController.remove);
-messageRoutes.post("/api/messages/send", tokenAuth_1.default, upload.array("medias"), MessageController.send);
+messageRoutes.post("/api/messages/send/:whatsappId?", tokenAuth_1.default, upload.array("medias"), MessageController.send);
 exports.default = messageRoutes;

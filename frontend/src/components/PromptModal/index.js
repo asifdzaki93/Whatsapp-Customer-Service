@@ -57,14 +57,25 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const PromptSchema = Yup.object().shape({
-    name: Yup.string().min(5, "Muito curto!").max(100, "Muito longo!").required("Obrigatório"),
-    prompt: Yup.string().min(50, "Muito curto!").required("Descreva o treinamento para Inteligência Artificial"),
-    voice: Yup.string().required("Informe o modo para Voz"),
-    max_tokens: Yup.number().required("Informe o número máximo de tokens"),
-    temperature: Yup.number().required("Informe a temperatura"),
-    apikey: Yup.string().required("Informe a API Key"),
-    queueId: Yup.number().required("Informe a fila"),
-    max_messages: Yup.number().required("Informe o número máximo de mensagens")
+    name: Yup.string()
+        .min(5, "Terlalu pendek!")
+        .max(100, "Terlalu panjang!")
+        .required("Wajib diisi"),
+    prompt: Yup.string()
+        .min(50, "Terlalu pendek!")
+        .required("Deskripsi pelatihan untuk AI wajib diisi"),
+    voice: Yup.string()
+        .required("Mode suara wajib diisi"),
+    max_tokens: Yup.number()
+        .required("Jumlah maksimum token wajib diisi"),
+    temperature: Yup.number()
+        .required("Temperatur wajib diisi"),
+    apikey: Yup.string()
+        .required("API Key wajib diisi"),
+    queueId: Yup.number()
+        .required("Antrian wajib diisi"),
+    max_messages: Yup.number()
+        .required("Jumlah maksimum pesan wajib diisi")
 });
 
 const PromptModal = ({ open, onClose, promptId }) => {
@@ -224,52 +235,19 @@ const PromptModal = ({ open, onClose, promptId }) => {
                                             multiple={false}
                                         >
                                             <MenuItem key={"texto"} value={"texto"}>
-                                                Texto
+                                                Teks
                                             </MenuItem>
-                                            <MenuItem key={"pt-BR-FranciscaNeural"} value={"pt-BR-FranciscaNeural"}>
-                                                Francisa
+                                            <MenuItem key={"id-ID-GadisNeural"} value={"id-ID-GadisNeural"}>
+                                                Gadis
                                             </MenuItem>
-                                            <MenuItem key={"pt-BR-AntonioNeural"} value={"pt-BR-AntonioNeural"}>
-                                                Antônio
+                                            <MenuItem key={"id-ID-ArdiNeural"} value={"id-ID-ArdiNeural"}>
+                                                Ardi
                                             </MenuItem>
-                                            <MenuItem key={"pt-BR-BrendaNeural"} value={"pt-BR-BrendaNeural"}>
-                                                Brenda
+                                            <MenuItem key={"id-ID-AsriNeural"} value={"id-ID-AsriNeural"}>
+                                                Asri
                                             </MenuItem>
-                                            <MenuItem key={"pt-BR-DonatoNeural"} value={"pt-BR-DonatoNeural"}>
-                                                Donato
-                                            </MenuItem>
-                                            <MenuItem key={"pt-BR-ElzaNeural"} value={"pt-BR-ElzaNeural"}>
-                                                Elza
-                                            </MenuItem>
-                                            <MenuItem key={"pt-BR-FabioNeural"} value={"pt-BR-FabioNeural"}>
-                                                Fábio
-                                            </MenuItem>
-                                            <MenuItem key={"pt-BR-GiovannaNeural"} value={"pt-BR-GiovannaNeural"}>
-                                                Giovanna
-                                            </MenuItem>
-                                            <MenuItem key={"pt-BR-HumbertoNeural"} value={"pt-BR-HumbertoNeural"}>
-                                                Humberto
-                                            </MenuItem>
-                                            <MenuItem key={"pt-BR-JulioNeural"} value={"pt-BR-JulioNeural"}>
-                                                Julio
-                                            </MenuItem>
-                                            <MenuItem key={"pt-BR-LeilaNeural"} value={"pt-BR-LeilaNeural"}>
-                                                Leila
-                                            </MenuItem>
-                                            <MenuItem key={"pt-BR-LeticiaNeural"} value={"pt-BR-LeticiaNeural"}>
-                                                Letícia
-                                            </MenuItem>
-                                            <MenuItem key={"pt-BR-ManuelaNeural"} value={"pt-BR-ManuelaNeural"}>
-                                                Manuela
-                                            </MenuItem>
-                                            <MenuItem key={"pt-BR-NicolauNeural"} value={"pt-BR-NicolauNeural"}>
-                                                Nicolau
-                                            </MenuItem>
-                                            <MenuItem key={"pt-BR-ValerioNeural"} value={"pt-BR-ValerioNeural"}>
-                                                Valério
-                                            </MenuItem>
-                                            <MenuItem key={"pt-BR-YaraNeural"} value={"pt-BR-YaraNeural"}>
-                                                Yara
+                                            <MenuItem key={"id-ID-BudiNeural"} value={"id-ID-BudiNeural"}>
+                                                Budi
                                             </MenuItem>
                                         </Select>
                                     </FormControl>

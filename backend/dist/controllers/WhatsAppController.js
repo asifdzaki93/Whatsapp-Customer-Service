@@ -20,10 +20,7 @@ const index = async (req, res) => {
 };
 exports.index = index;
 const store = async (req, res) => {
-    const { name, status, isDefault, greetingMessage, complationMessage, outOfHoursMessage, queueIds, token, 
-    //timeSendQueue,
-    //sendIdQueue,
-    transferQueueId, timeToTransfer, promptId, maxUseBotQueues, timeUseBotQueues, expiresTicket, expiresInactiveMessage } = req.body;
+    const { name, status, isDefault, greetingMessage, complationMessage, ratingMessage, outOfHoursMessage, queueIds, token, transferQueueId, timeToTransfer, promptId, maxUseBotQueues, timeUseBotQueues, expiresTicket, expiresInactiveMessage } = req.body;
     const { companyId } = req.user;
     const { whatsapp, oldDefaultWhatsapp } = await (0, CreateWhatsAppService_1.default)({
         name,
@@ -31,12 +28,11 @@ const store = async (req, res) => {
         isDefault,
         greetingMessage,
         complationMessage,
+        ratingMessage,
         outOfHoursMessage,
         queueIds,
         companyId,
         token,
-        //timeSendQueue,
-        //sendIdQueue,
         transferQueueId,
         timeToTransfer,
         promptId,

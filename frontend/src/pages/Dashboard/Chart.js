@@ -94,7 +94,7 @@ const Chart = () => {
 							position="left"
 							style={{ textAnchor: "middle", fill: theme.palette.text.primary }}
 						>
-							Tickets
+							Tiket
 						</Label>
 					</YAxis>
 					<Bar dataKey="amount" fill={theme.palette.primary.main} />

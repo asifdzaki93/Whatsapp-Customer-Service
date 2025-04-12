@@ -82,12 +82,12 @@ export function ChatModal({
   const handleSave = async () => {
     try {
       if (!title) {
-        alert("Por favor, preencha o título da conversa.");
+        alert("Silakan, isi judul percakapan.");
         return;
       }
 
       if (!users || users.length === 0) {
-        alert("Por favor, selecione pelo menos um usuário.");
+        alert("Silakan, pilih setidaknya satu pengguna.");
         return;
       }
 
@@ -114,13 +114,13 @@ export function ChatModal({
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">Conversa</DialogTitle>
+      <DialogTitle id="alert-dialog-title">Percakapan</DialogTitle>
       <DialogContent>
         <Grid spacing={2} container>
           <Grid xs={12} style={{ padding: 18 }} item>
             <TextField
-              label="Título"
-              placeholder="Título"
+              label="Judul"
+              placeholder="Judul"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               variant="outlined"
@@ -138,10 +138,10 @@ export function ChatModal({
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
-          Fechar
+          Tutup
         </Button>
         <Button onClick={handleSave} color="primary" variant="contained">
-          Salvar
+          Simpan
         </Button>
       </DialogActions>
     </Dialog>
@@ -342,7 +342,7 @@ function Chat(props) {
                 color="primary"
                 variant="contained"
               >
-                Nova
+                Baru
               </Button>
             </div>
           
@@ -387,7 +387,7 @@ function Chat(props) {
             aria-label="disabled tabs example"
           >
             <Tab label="Chats" />
-            <Tab label="Mensagens" />
+            <Tab label="Pesan" />
           </Tabs>
         </Grid>
         {tab === 0 && (

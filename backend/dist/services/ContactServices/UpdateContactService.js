@@ -7,10 +7,18 @@ const AppError_1 = __importDefault(require("../../errors/AppError"));
 const Contact_1 = __importDefault(require("../../models/Contact"));
 const ContactCustomField_1 = __importDefault(require("../../models/ContactCustomField"));
 const UpdateContactService = async ({ contactData, contactId, companyId }) => {
-    const { email, name, number, extraInfo } = contactData;
+    const { email, name, number, ignoreMessages, extraInfo } = contactData;
     const contact = await Contact_1.default.findOne({
         where: { id: contactId },
-        attributes: ["id", "name", "number", "email", "companyId", "profilePicUrl"],
+        attributes: [
+            "id",
+            "name",
+            "number",
+            "email",
+            "ignoreMessages",
+            "companyId",
+            "profilePicUrl"
+        ],
         include: ["extraInfo"]
     });
     if (contact?.companyId !== companyId) {
@@ -33,10 +41,18 @@ const UpdateContactService = async ({ contactData, contactId, companyId }) => {
     await contact.update({
         name,
         number,
-        email
+        email,
+        ignoreMessages
     });
     await contact.reload({
-        attributes: ["id", "name", "number", "email", "profilePicUrl"],
+        attributes: [
+            "id",
+            "name",
+            "number",
+            "email",
+            "ignoreMessages",
+            "profilePicUrl"
+        ],
         include: ["extraInfo"]
     });
     return contact;

@@ -147,7 +147,7 @@ export function PlanManagerForm(props) {
                         <Grid xs={12} sm={6} md={1} item>
                             <Field
                                 as={TextField}
-                                label="Filas"
+                                label="Antrian"
                                 name="queues"
                                 variant="outlined"
                                 className={classes.fullWidth}
@@ -160,7 +160,7 @@ export function PlanManagerForm(props) {
                         <Grid xs={12} sm={6} md={1} item>
                             <Field
                                 as={TextField}
-                                label="Valor"
+                                label="Harga"
                                 name="value"
                                 variant="outlined"
                                 className={classes.fullWidth}
@@ -172,17 +172,17 @@ export function PlanManagerForm(props) {
                         {/* CAMPANHAS */}
                         <Grid xs={12} sm={6} md={2} item>
                             <FormControl margin="dense" variant="outlined" fullWidth>
-                                <InputLabel htmlFor="useCampaigns-selection">{i18n.t("plans.form.campaigns")}</InputLabel>
+                                <InputLabel htmlFor="useCampaigns-selection">Kampanye</InputLabel>
                                 <Field
                                     as={Select}
                                     id="useCampaigns-selection"
-                                    label={i18n.t("plans.form.campaigns")}
+                                    label="Kampanye"
                                     labelId="useCampaigns-selection-label"
                                     name="useCampaigns"
                                     margin="dense"
                                 >
-                                    <MenuItem value={true}>{i18n.t("plans.form.enabled")}</MenuItem>
-                                    <MenuItem value={false}>{i18n.t("plans.form.disabled")}</MenuItem>
+                                    <MenuItem value={true}>Aktif</MenuItem>
+                                    <MenuItem value={false}>Tidak Aktif</MenuItem>
                                 </Field>
                             </FormControl>
                         </Grid>
@@ -190,17 +190,17 @@ export function PlanManagerForm(props) {
                         {/* AGENDAMENTOS */}
                         <Grid xs={12} sm={8} md={2} item>
                             <FormControl margin="dense" variant="outlined" fullWidth>
-                                <InputLabel htmlFor="useSchedules-selection">{i18n.t("plans.form.schedules")}</InputLabel>
+                                <InputLabel htmlFor="useSchedules-selection">Penjadwalan</InputLabel>
                                 <Field
                                     as={Select}
                                     id="useSchedules-selection"
-                                    label={i18n.t("plans.form.schedules")}
+                                    label="Penjadwalan"
                                     labelId="useSchedules-selection-label"
                                     name="useSchedules"
                                     margin="dense"
                                 >
-                                    <MenuItem value={true}>{i18n.t("plans.form.enabled")}</MenuItem>
-                                    <MenuItem value={false}>{i18n.t("plans.form.disabled")}</MenuItem>
+                                    <MenuItem value={true}>Aktif</MenuItem>
+                                    <MenuItem value={false}>Tidak Aktif</MenuItem>
                                 </Field>
                             </FormControl>
                         </Grid>
@@ -208,17 +208,17 @@ export function PlanManagerForm(props) {
                         {/* CHAT INTERNO */}
                         <Grid xs={12} sm={8} md={2} item>
                             <FormControl margin="dense" variant="outlined" fullWidth>
-                                <InputLabel htmlFor="useInternalChat-selection">Chat Interno</InputLabel>
+                                <InputLabel htmlFor="useInternalChat-selection">Chat Internal</InputLabel>
                                 <Field
                                     as={Select}
                                     id="useInternalChat-selection"
-                                    label="Chat Interno"
+                                    label="Chat Internal"
                                     labelId="useInternalChat-selection-label"
                                     name="useInternalChat"
                                     margin="dense"
                                 >
-                                    <MenuItem value={true}>{i18n.t("plans.form.enabled")}</MenuItem>
-                                    <MenuItem value={false}>{i18n.t("plans.form.disabled")}</MenuItem>
+                                    <MenuItem value={true}>Aktif</MenuItem>
+                                    <MenuItem value={false}>Tidak Aktif</MenuItem>
                                 </Field>
                             </FormControl>
                         </Grid>
@@ -226,17 +226,17 @@ export function PlanManagerForm(props) {
                         {/* API Externa */}
                         <Grid xs={12} sm={8} md={4} item>
                             <FormControl margin="dense" variant="outlined" fullWidth>
-                                <InputLabel htmlFor="useExternalApi-selection">API Externa</InputLabel>
+                                <InputLabel htmlFor="useExternalApi-selection">API Eksternal</InputLabel>
                                 <Field
                                     as={Select}
                                     id="useExternalApi-selection"
-                                    label="API Externa"
+                                    label="API Eksternal"
                                     labelId="useExternalApi-selection-label"
                                     name="useExternalApi"
                                     margin="dense"
                                 >
-                                    <MenuItem value={true}>{i18n.t("plans.form.enabled")}</MenuItem>
-                                    <MenuItem value={false}>{i18n.t("plans.form.disabled")}</MenuItem>
+                                    <MenuItem value={true}>Aktif</MenuItem>
+                                    <MenuItem value={false}>Tidak Aktif</MenuItem>
                                 </Field>
                             </FormControl>
                         </Grid>
@@ -253,8 +253,8 @@ export function PlanManagerForm(props) {
                                     name="useKanban"
                                     margin="dense"
                                 >
-                                    <MenuItem value={true}>{i18n.t("plans.form.enabled")}</MenuItem>
-                                    <MenuItem value={false}>{i18n.t("plans.form.disabled")}</MenuItem>
+                                    <MenuItem value={true}>Aktif</MenuItem>
+                                    <MenuItem value={false}>Tidak Aktif</MenuItem>
                                 </Field>
                             </FormControl>
                         </Grid>
@@ -262,17 +262,17 @@ export function PlanManagerForm(props) {
                         {/* OPENAI */}
                         <Grid xs={12} sm={8} md={2} item>
                             <FormControl margin="dense" variant="outlined" fullWidth>
-                                <InputLabel htmlFor="useOpenAi-selection">Open.Ai</InputLabel>
+                                <InputLabel htmlFor="useOpenAi-selection">OpenAI</InputLabel>
                                 <Field
                                     as={Select}
                                     id="useOpenAi-selection"
-                                    label="Talk.Ai"
+                                    label="OpenAI"
                                     labelId="useOpenAi-selection-label"
                                     name="useOpenAi"
                                     margin="dense"
                                 >
-                                    <MenuItem value={true}>{i18n.t("plans.form.enabled")}</MenuItem>
-                                    <MenuItem value={false}>{i18n.t("plans.form.disabled")}</MenuItem>
+                                    <MenuItem value={true}>Aktif</MenuItem>
+                                    <MenuItem value={false}>Tidak Aktif</MenuItem>
                                 </Field>
                             </FormControl>
                         </Grid>
@@ -280,17 +280,17 @@ export function PlanManagerForm(props) {
                         {/* INTEGRACOES */}
                         <Grid xs={12} sm={8} md={2} item>
                             <FormControl margin="dense" variant="outlined" fullWidth>
-                                <InputLabel htmlFor="useIntegrations-selection">Integrações</InputLabel>
+                                <InputLabel htmlFor="useIntegrations-selection">Integrasi</InputLabel>
                                 <Field
                                     as={Select}
                                     id="useIntegrations-selection"
-                                    label="Integrações"
+                                    label="Integrasi"
                                     labelId="useIntegrations-selection-label"
                                     name="useIntegrations"
                                     margin="dense"
                                 >
-                                    <MenuItem value={true}>{i18n.t("plans.form.enabled")}</MenuItem>
-                                    <MenuItem value={false}>{i18n.t("plans.form.disabled")}</MenuItem>
+                                    <MenuItem value={true}>Aktif</MenuItem>
+                                    <MenuItem value={false}>Tidak Aktif</MenuItem>
                                 </Field>
                             </FormControl>
                         </Grid>
@@ -326,31 +326,31 @@ export function PlansManagerGrid(props) {
     const classes = useStyles()
     
     const renderCampaigns = (row) => {
-        return row.useCampaigns === false ? `${i18n.t("plans.form.no")}` : `${i18n.t("plans.form.yes")}`;
+        return row.useCampaigns ? "Aktif" : "Tidak Aktif";
     };
 
     const renderSchedules = (row) => {
-        return row.useSchedules === false ? `${i18n.t("plans.form.no")}` : `${i18n.t("plans.form.yes")}`;
+        return row.useSchedules ? "Aktif" : "Tidak Aktif";
     };
 
     const renderInternalChat = (row) => {
-        return row.useInternalChat === false ? `${i18n.t("plans.form.no")}` : `${i18n.t("plans.form.yes")}`;
+        return row.useInternalChat ? "Aktif" : "Tidak Aktif";
     };
 
     const renderExternalApi = (row) => {
-        return row.useExternalApi === false ? `${i18n.t("plans.form.no")}` : `${i18n.t("plans.form.yes")}`;
+        return row.useExternalApi ? "Aktif" : "Tidak Aktif";
     };
 
     const renderKanban = (row) => {
-        return row.useKanban === false ? `${i18n.t("plans.form.no")}` : `${i18n.t("plans.form.yes")}`;
+        return row.useKanban ? "Aktif" : "Tidak Aktif";
     };
 
     const renderOpenAi = (row) => {
-        return row.useOpenAi === false ? `${i18n.t("plans.form.no")}` : `${i18n.t("plans.form.yes")}`;
+        return row.useOpenAi ? "Aktif" : "Tidak Aktif";
     };
 
     const renderIntegrations = (row) => {
-        return row.useIntegrations === false ? `${i18n.t("plans.form.no")}` : `${i18n.t("plans.form.yes")}`;
+        return row.useIntegrations ? "Aktif" : "Tidak Aktif";
     };
 
     return (
@@ -367,15 +367,15 @@ export function PlansManagerGrid(props) {
                         <TableCell align="left">{i18n.t("plans.form.name")}</TableCell>
                         <TableCell align="center">{i18n.t("plans.form.users")}</TableCell>
                         <TableCell align="center">{i18n.t("plans.form.connections")}</TableCell>
-                        <TableCell align="center">Filas</TableCell>
-                        <TableCell align="center">Valor</TableCell>
-                        <TableCell align="center">{i18n.t("plans.form.campaigns")}</TableCell>
-                        <TableCell align="center">{i18n.t("plans.form.schedules")}</TableCell>
-                        <TableCell align="center">Chat Interno</TableCell>
-                        <TableCell align="center">API Externa</TableCell>
+                        <TableCell align="center">Antrian</TableCell>
+                        <TableCell align="center">Harga</TableCell>
+                        <TableCell align="center">Kampanye</TableCell>
+                        <TableCell align="center">Penjadwalan</TableCell>
+                        <TableCell align="center">Chat Internal</TableCell>
+                        <TableCell align="center">API Eksternal</TableCell>
                         <TableCell align="center">Kanban</TableCell>
-                        <TableCell align="center">Open.Ai</TableCell>
-                        <TableCell align="center">Integrações</TableCell>
+                        <TableCell align="center">OpenAI</TableCell>
+                        <TableCell align="center">Integrasi</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

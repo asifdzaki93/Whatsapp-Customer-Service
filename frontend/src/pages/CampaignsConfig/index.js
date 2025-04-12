@@ -133,7 +133,7 @@ const CampaignsConfig = () => {
         <Box className={classes.tabPanelsContainer}>
           <Grid spacing={2} container>
             <Grid xs={12} item>
-              <Typography component={"h3"}>Intervalos</Typography>
+              <Typography component={"h3"}>Interval</Typography>
             </Grid>
             <Grid xs={12} md={4} item>
               <FormControl
@@ -142,21 +142,21 @@ const CampaignsConfig = () => {
                 fullWidth
               >
                 <InputLabel id="messageInterval-label">
-                  Intervalo Randômico de Disparo
+                  Interval Random
                 </InputLabel>
                 <Select
                   name="messageInterval"
                   id="messageInterval"
                   labelId="messageInterval-label"
-                  label="Intervalo Randômico de Disparo"
+                  label="Interval Random"
                   value={settings.messageInterval}
                   onChange={(e) => handleOnChangeSettings(e)}
                 >
-                  <MenuItem value={0}>Sem Intervalo</MenuItem>
-                  <MenuItem value={5}>5 segundos</MenuItem>
-                  <MenuItem value={10}>10 segundos</MenuItem>
-                  <MenuItem value={15}>15 segundos</MenuItem>
-                  <MenuItem value={20}>20 segundos</MenuItem>
+                  <MenuItem value={0}>Tidak Ada Interval</MenuItem>
+                  <MenuItem value={5}>5 detik</MenuItem>
+                  <MenuItem value={10}>10 detik</MenuItem>
+                  <MenuItem value={15}>15 detik</MenuItem>
+                  <MenuItem value={20}>20 detik</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -167,28 +167,28 @@ const CampaignsConfig = () => {
                 fullWidth
               >
                 <InputLabel id="longerIntervalAfter-label">
-                  Intervalo Maior Após
+                  Interval Lebih Besar Setelah
                 </InputLabel>
                 <Select
                   name="longerIntervalAfter"
                   id="longerIntervalAfter"
                   labelId="longerIntervalAfter-label"
-                  label="Intervalo Maior Após"
+                  label="Interval Lebih Besar Setelah"
                   value={settings.longerIntervalAfter}
                   onChange={(e) => handleOnChangeSettings(e)}
                 >
-                  <MenuItem value={0}>Não definido</MenuItem>
-                  <MenuItem value={1}>1 segundo</MenuItem>
-                  <MenuItem value={5}>5 segundos</MenuItem>
-                  <MenuItem value={10}>10 segundos</MenuItem>
-                  <MenuItem value={15}>15 segundos</MenuItem>
-                  <MenuItem value={20}>20 segundos</MenuItem>
-                  <MenuItem value={30}>30 segundos</MenuItem>
-                  <MenuItem value={40}>40 segundos</MenuItem>
-                  <MenuItem value={60}>60 segundos</MenuItem>
-                  <MenuItem value={80}>80 segundos</MenuItem>
-                  <MenuItem value={100}>100 segundos</MenuItem>
-                  <MenuItem value={120}>120 segundos</MenuItem>
+                  <MenuItem value={0}>Tidak Ada</MenuItem>
+                  <MenuItem value={1}>1 detik</MenuItem>
+                  <MenuItem value={5}>5 detik</MenuItem>
+                  <MenuItem value={10}>10 detik</MenuItem>
+                  <MenuItem value={15}>15 detik</MenuItem>
+                  <MenuItem value={20}>20 detik</MenuItem>
+                  <MenuItem value={30}>30 detik</MenuItem>
+                  <MenuItem value={40}>40 detik</MenuItem>
+                  <MenuItem value={60}>60 detik</MenuItem>
+                  <MenuItem value={80}>80 detik</MenuItem>
+                  <MenuItem value={100}>100 detik</MenuItem>
+                  <MenuItem value={120}>120 detik</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -199,28 +199,28 @@ const CampaignsConfig = () => {
                 fullWidth
               >
                 <InputLabel id="greaterInterval-label">
-                  Intervalo de Disparo Maior
+                  Interval tembak lebih besar
                 </InputLabel>
                 <Select
                   name="greaterInterval"
                   id="greaterInterval"
                   labelId="greaterInterval-label"
-                  label="Intervalo de Disparo Maior"
+                  label="Interval tembak lebih besar"
                   value={settings.greaterInterval}
                   onChange={(e) => handleOnChangeSettings(e)}
                 >
-                  <MenuItem value={0}>Sem Intervalo</MenuItem>
-                  <MenuItem value={1}>1 segundo</MenuItem>
-                  <MenuItem value={5}>5 segundos</MenuItem>
-                  <MenuItem value={10}>10 segundos</MenuItem>
-                  <MenuItem value={15}>15 segundos</MenuItem>
-                  <MenuItem value={20}>20 segundos</MenuItem>
-                  <MenuItem value={30}>30 segundos</MenuItem>
-                  <MenuItem value={40}>40 segundos</MenuItem>
-                  <MenuItem value={60}>60 segundos</MenuItem>
-                  <MenuItem value={80}>80 segundos</MenuItem>
-                  <MenuItem value={100}>100 segundos</MenuItem>
-                  <MenuItem value={120}>120 segundos</MenuItem>
+                  <MenuItem value={0}>Tidak Ada</MenuItem>
+                  <MenuItem value={1}>1 detik</MenuItem>
+                  <MenuItem value={5}>5 detik</MenuItem>
+                  <MenuItem value={10}>10 detik</MenuItem>
+                  <MenuItem value={15}>15 detik</MenuItem>
+                  <MenuItem value={20}>20 detik</MenuItem>
+                  <MenuItem value={30}>30 detik</MenuItem>
+                  <MenuItem value={40}>40 detik</MenuItem>
+                  <MenuItem value={60}>60 detik</MenuItem>
+                  <MenuItem value={80}>80 detik</MenuItem>
+                  <MenuItem value={100}>100 detik</MenuItem>
+                  <MenuItem value={120}>120 detik</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -230,21 +230,21 @@ const CampaignsConfig = () => {
                 color="primary"
                 style={{ marginRight: 10 }}
               >
-                Adicionar Variável
+                Tambah Variabel
               </Button>
               <Button
                 onClick={saveSettings}
                 color="primary"
                 variant="contained"
               >
-                Salvar Configurações
+                Simpan
               </Button>
             </Grid>
             {showVariablesForm && (
               <>
                 <Grid xs={12} md={6} item>
                   <TextField
-                    label="Atalho"
+                    label="Shortcut"
                     variant="outlined"
                     value={variable.key}
                     name="key"
@@ -254,7 +254,7 @@ const CampaignsConfig = () => {
                 </Grid>
                 <Grid xs={12} md={6} item>
                   <TextField
-                    label="Conteúdo"
+                    label="Konten"
                     variant="outlined"
                     value={variable.value}
                     name="value"
@@ -268,14 +268,14 @@ const CampaignsConfig = () => {
                     color="primary"
                     style={{ marginRight: 10 }}
                   >
-                    Fechar
+                    Tutup
                   </Button>
                   <Button
                     onClick={addVariable}
                     color="primary"
                     variant="contained"
                   >
-                    Adicionar
+                    Tambahkan
                   </Button>
                 </Grid>
               </>
@@ -286,8 +286,8 @@ const CampaignsConfig = () => {
                   <TableHead>
                     <TableRow>
                       <TableCell style={{ width: "1%" }}></TableCell>
-                      <TableCell>Atalho</TableCell>
-                      <TableCell>Conteúdo</TableCell>
+                      <TableCell>Shortcut</TableCell>
+                      <TableCell>Konten</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>

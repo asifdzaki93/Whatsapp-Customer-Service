@@ -43,118 +43,42 @@ const useStyles = makeStyles(theme => ({
 
 const FormCompany = () => {
 	const classes = useStyles();
-	const { getPlanList } = usePlans()
-    const { save: saveCompany } = useCompanies()
-	const [company, setCompany] = useState({ name: "", planId: "", token: "" });
-	const [plans, setPlans] = useState([])
-
-	useEffect(() => {
-		const fetchData = async () => {
-			const list = await getPlanList()
-			setPlans(list);
-		}
-		fetchData();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	const { loading, createCompany } = useCompanies();
+	const { plans } = usePlans();
+	const [company, setCompany] = useState({
+		name: "",
+		email: "",
+		phone: "",
+		status: true,
+		planId: "",
+		campaignsEnabled: false
+	});
 
 	const handleChangeInput = e => {
-		setCompany({ ...company, [e.target.name]: e.target.value });
+		const { name, value } = e.target;
+		setCompany(prev => ({
+			...prev,
+			[name]: value
+		}));
 	};
 
-	const handlSubmit = async e => {
+	const handleSubmit = async e => {
 		e.preventDefault();
 		try {
-			await saveCompany(company)
-			setCompany({ name: "", planId: "", token: "" })
-			toast.success(i18n.t("companies.form.success"));
-		} catch (e) {
-			toastError(e)
+			await createCompany(company);
+			toast.success("Perusahaan berhasil ditambahkan!");
+			setCompany({
+				name: "",
+				email: "",
+				phone: "",
+				status: true,
+				planId: "",
+				campaignsEnabled: false
+			});
+		} catch (err) {
+			toastError(err);
 		}
 	};
-
-	const renderPlanField = () => {
-		if (plans.length) {
-			return <>
-				<Grid item>
-					<FormControl fullWidth variant="outlined">
-						<InputLabel>Plano</InputLabel>
-						<Select 
-							required
-							id="planId"
-							label={i18n.t("companies.form.plan")}
-							name="planId"
-							value={company.planId}
-							onChange={handleChangeInput}
-							autoComplete="plan"
-						>
-							<MenuItem value={""}>&nbsp;</MenuItem>
-							{ plans.map((plan, index) => {
-								return <MenuItem value={plan.id} key={index}>{ plan.name }</MenuItem>
-							})}
-						</Select>
-					</FormControl>
-				</Grid>
-			</>
-		}
-	}
-
-	const renderNameField = () => {
-		if (plans.length && !isEqual(company.planId, "")) {
-			return <>
-				<Grid item>
-					<TextField
-						variant="outlined"
-						required
-						fullWidth
-						id="name"
-						label={i18n.t("companies.form.name")}
-						name="name"
-						value={company.name}
-						onChange={handleChangeInput}
-						autoComplete="name"
-						autoFocus
-					/>
-				</Grid>
-			</>
-		}
-	}
-
-	const renderTokenField = () => {
-		if (plans.length && !isEqual(company.planId, "")) {
-			return <>
-				<Grid item>
-					<TextField
-						variant="outlined"
-						required
-						fullWidth
-						id="token"
-						label={i18n.t("companies.form.token")}
-						name="token"
-						value={company.token}
-						onChange={handleChangeInput}
-						autoComplete="token"
-						autoFocus
-					/>
-				</Grid>
-			</>
-		}
-	}
-
-	const renderSubmitButton = () => {
-		if (plans.length && !isEqual(company.planId, "")) {
-			return <>
-				<Button
-					type="submit"
-					fullWidth
-					variant="contained"
-					color="primary"
-					className={classes.submit}
-				>
-					{i18n.t("companies.form.submit")}
-				</Button>
-			</>
-		}
-	}
 
 	return (
 		<Container component="main" maxWidth="xs">
@@ -164,15 +88,113 @@ const FormCompany = () => {
 					<StoreIcon />
 				</Avatar>
 				<Typography component="h1" variant="h5">
-					{i18n.t("companies.title")}
+					Tambah Perusahaan
 				</Typography>
-				<form className={classes.form} noValidate onSubmit={handlSubmit}>
-					<Grid container direction="column" spacing={2}>
-						{ renderPlanField() }
-						{ renderNameField() }
-						{ renderTokenField() }
+				<form className={classes.form} onSubmit={handleSubmit}>
+					<Grid container spacing={2}>
+						<Grid item xs={12}>
+							<TextField
+								variant="outlined"
+								required
+								fullWidth
+								id="name"
+								label="Nama Perusahaan"
+								name="name"
+								value={company.name}
+								onChange={handleChangeInput}
+								autoComplete="name"
+								autoFocus
+								error={company.name.length > 0 && company.name.length < 2}
+								helperText={company.name.length > 0 && company.name.length < 2 ? "Nama perusahaan minimal 2 karakter" : ""}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								variant="outlined"
+								required
+								fullWidth
+								id="email"
+								label="Email"
+								name="email"
+								type="email"
+								value={company.email}
+								onChange={handleChangeInput}
+								autoComplete="email"
+								error={company.email.length > 0 && !company.email.includes("@")}
+								helperText={company.email.length > 0 && !company.email.includes("@") ? "Email tidak valid" : ""}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								variant="outlined"
+								fullWidth
+								id="phone"
+								label="Telepon"
+								name="phone"
+								value={company.phone}
+								onChange={handleChangeInput}
+								autoComplete="tel"
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<FormControl fullWidth variant="outlined" required>
+								<InputLabel>Paket</InputLabel>
+								<Select
+									id="planId"
+									name="planId"
+									value={company.planId}
+									onChange={handleChangeInput}
+									label="Paket"
+								>
+									{plans.map(plan => (
+										<MenuItem key={plan.id} value={plan.id}>
+											{plan.name}
+										</MenuItem>
+									))}
+								</Select>
+							</FormControl>
+						</Grid>
+						<Grid item xs={12}>
+							<FormControl fullWidth variant="outlined">
+								<InputLabel>Status</InputLabel>
+								<Select
+									id="status"
+									name="status"
+									value={company.status}
+									onChange={handleChangeInput}
+									label="Status"
+								>
+									<MenuItem value={true}>Aktif</MenuItem>
+									<MenuItem value={false}>Tidak Aktif</MenuItem>
+								</Select>
+							</FormControl>
+						</Grid>
+						<Grid item xs={12}>
+							<FormControl fullWidth variant="outlined">
+								<InputLabel>Kampanye</InputLabel>
+								<Select
+									id="campaignsEnabled"
+									name="campaignsEnabled"
+									value={company.campaignsEnabled}
+									onChange={handleChangeInput}
+									label="Kampanye"
+								>
+									<MenuItem value={true}>Aktif</MenuItem>
+									<MenuItem value={false}>Tidak Aktif</MenuItem>
+								</Select>
+							</FormControl>
+						</Grid>
 					</Grid>
-					{ renderSubmitButton() }
+					<Button
+						type="submit"
+						fullWidth
+						variant="contained"
+						color="primary"
+						className={classes.submit}
+						disabled={loading || !company.name || !company.email || !company.planId}
+					>
+						{loading ? "Menyimpan..." : "Simpan"}
+					</Button>
 				</form>
 			</div>
 		</Container>

@@ -33,67 +33,79 @@ const Ticket_1 = __importDefault(require("../../models/Ticket"));
 const logger_1 = require("../../utils/logger");
 const CreateOrUpdateBaileysService_1 = __importDefault(require("../BaileysServices/CreateOrUpdateBaileysService"));
 const CreateMessageService_1 = __importDefault(require("../MessageServices/CreateMessageService"));
+const Debounce_1 = require("../../helpers/Debounce");
 const wbotMonitor = async (wbot, whatsapp, companyId) => {
     try {
-        wbot.ws.on("CB:call", async (node) => {
-            const content = node.content[0];
-            if (content.tag === "offer") {
-                const { from, id } = node.attrs;
-            }
-            if (content.tag === "terminate") {
-                const sendMsgCall = await Setting_1.default.findOne({
-                    where: { key: "call", companyId },
-                });
-                if (sendMsgCall.value === "disabled") {
-                    await wbot.sendMessage(node.attrs.from, {
-                        text: "*Mensagem Automática:*\n\nAs chamadas de voz e vídeo estão desabilitas para esse WhatsApp, favor enviar uma mensagem de texto. Obrigado",
+        wbot.ev.on("call", async (call) => {
+            try {
+                if (call.length > 0) {
+                    const sendMsgCall = await Setting_1.default.findOne({
+                        where: { key: "call", companyId }
                     });
-                    const number = node.attrs.from.replace(/\D/g, "");
-                    const contact = await Contact_1.default.findOne({
-                        where: { companyId, number },
-                    });
-                    const ticket = await Ticket_1.default.findOne({
-                        where: {
-                            contactId: contact.id,
-                            whatsappId: wbot.id,
-                            //status: { [Op.or]: ["close"] },
-                            companyId
-                        },
-                    });
-                    // se não existir o ticket não faz nada.
-                    if (!ticket)
-                        return;
-                    const date = new Date();
-                    const hours = date.getHours();
-                    const minutes = date.getMinutes();
-                    const body = `Chamada de voz/vídeo perdida às ${hours}:${minutes}`;
-                    const messageData = {
-                        id: content.attrs["call-id"],
-                        ticketId: ticket.id,
-                        contactId: contact.id,
-                        body,
-                        fromMe: false,
-                        mediaType: "call_log",
-                        read: true,
-                        quotedMsgId: null,
-                        ack: 1,
-                    };
-                    await ticket.update({
-                        lastMessage: body,
-                    });
-                    if (ticket.status === "closed") {
-                        await ticket.update({
-                            status: "pending",
+                    if (sendMsgCall.value === "disabled") {
+                        const callId = call[0].id;
+                        const from = call[0].from;
+                        await wbot.rejectCall(callId, from).then(async () => {
+                            const debouncedSentMessage = (0, Debounce_1.debounce)(async () => {
+                                await wbot.sendMessage(from, {
+                                    text: `*Mensagem Automática:*\nAs chamadas de voz e vídeo estão desabilitadas para este WhatsApp. Por favor, envie uma mensagem de texto.`
+                                });
+                                const number = from.split(":").shift();
+                                const contact = await Contact_1.default.findOne({
+                                    where: { companyId, number }
+                                });
+                                const ticket = await Ticket_1.default.findOne({
+                                    where: {
+                                        contactId: contact.id,
+                                        whatsappId: wbot.id,
+                                        //status: { [Op.or]: ["close"] },
+                                        companyId
+                                    }
+                                });
+                                // se não existir o ticket não faz nada.
+                                if (!ticket)
+                                    return;
+                                const date = new Date();
+                                const hours = date.getHours();
+                                const minutes = date.getMinutes();
+                                const body = `Chamada de voz/vídeo perdida às ${hours}:${minutes}`;
+                                const messageData = {
+                                    id: callId,
+                                    ticketId: ticket.id,
+                                    contactId: contact.id,
+                                    body,
+                                    fromMe: false,
+                                    mediaType: "call_log",
+                                    read: true,
+                                    quotedMsgId: null,
+                                    ack: 1
+                                };
+                                await ticket.update({
+                                    lastMessage: body
+                                });
+                                if (ticket.status === "closed") {
+                                    await ticket.update({
+                                        status: "pending"
+                                    });
+                                }
+                                await (0, CreateMessageService_1.default)({
+                                    messageData,
+                                    companyId: companyId
+                                });
+                            }, 3000, Number(callId.replace(/\D/g, "")));
+                            debouncedSentMessage();
                         });
                     }
-                    return (0, CreateMessageService_1.default)({ messageData, companyId: companyId });
                 }
+            }
+            catch (error) {
+                logger_1.logger.error("Error handling call:", error);
             }
         });
         wbot.ev.on("contacts.upsert", async (contacts) => {
             await (0, CreateOrUpdateBaileysService_1.default)({
                 whatsappId: whatsapp.id,
-                contacts,
+                contacts
             });
         });
     }

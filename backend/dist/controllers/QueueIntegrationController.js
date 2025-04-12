@@ -3,13 +3,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.remove = exports.update = exports.show = exports.store = exports.index = void 0;
+exports.testSession = exports.remove = exports.update = exports.show = exports.store = exports.index = void 0;
 const socket_1 = require("../libs/socket");
 const CreateQueueIntegrationService_1 = __importDefault(require("../services/QueueIntegrationServices/CreateQueueIntegrationService"));
 const DeleteQueueIntegrationService_1 = __importDefault(require("../services/QueueIntegrationServices/DeleteQueueIntegrationService"));
 const ListQueueIntegrationService_1 = __importDefault(require("../services/QueueIntegrationServices/ListQueueIntegrationService"));
 const ShowQueueIntegrationService_1 = __importDefault(require("../services/QueueIntegrationServices/ShowQueueIntegrationService"));
 const UpdateQueueIntegrationService_1 = __importDefault(require("../services/QueueIntegrationServices/UpdateQueueIntegrationService"));
+const TestDialogflowService_1 = __importDefault(require("../services/DialogflowServices/TestDialogflowService"));
 const index = async (req, res) => {
     const { searchParam, pageNumber } = req.query;
     const { companyId } = req.user;
@@ -25,7 +26,13 @@ const store = async (req, res) => {
     const { type, name, projectName, jsonContent, language, urlN8N, typebotExpires, typebotKeywordFinish, typebotSlug, typebotUnknownMessage, typebotKeywordRestart, typebotRestartMessage } = req.body;
     const { companyId } = req.user;
     const queueIntegration = await (0, CreateQueueIntegrationService_1.default)({
-        type, name, projectName, jsonContent, language, urlN8N, companyId,
+        type,
+        name,
+        projectName,
+        jsonContent,
+        language,
+        urlN8N,
+        companyId,
         typebotExpires,
         typebotKeywordFinish,
         typebotSlug,
@@ -52,7 +59,11 @@ const update = async (req, res) => {
     const { integrationId } = req.params;
     const integrationData = req.body;
     const { companyId } = req.user;
-    const queueIntegration = await (0, UpdateQueueIntegrationService_1.default)({ integrationData, integrationId, companyId });
+    const queueIntegration = await (0, UpdateQueueIntegrationService_1.default)({
+        integrationData,
+        integrationId,
+        companyId
+    });
     const io = (0, socket_1.getIO)();
     io.emit(`company-${companyId}-queueIntegration`, {
         action: "update",
@@ -73,3 +84,13 @@ const remove = async (req, res) => {
     return res.status(200).send();
 };
 exports.remove = remove;
+const testSession = async (req, res) => {
+    const { projectName, jsonContent, language } = req.body;
+    const response = await (0, TestDialogflowService_1.default)({
+        projectName,
+        jsonContent,
+        language
+    });
+    return res.status(200).json(response);
+};
+exports.testSession = testSession;

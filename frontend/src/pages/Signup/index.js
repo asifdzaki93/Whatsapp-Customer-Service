@@ -147,7 +147,7 @@ const SignUp = () => {
                                         variant="outlined"
                                         fullWidth
                                         id="name"
-                                        label="Nome da Empresa"
+                                        label="Nama Perusahaan"
                                     />
                                 </Grid>
 
@@ -172,7 +172,7 @@ const SignUp = () => {
                                         variant="outlined"
                                         fullWidth
                                         id="phone"
-                                        label="Telefone com (DDD)"
+                                        label="Nomor Telepon dengan (Kode Area)"
                                         name="phone"
                                         error={touched.email && Boolean(errors.email)}
                                         helperText={touched.email && errors.email}
@@ -197,20 +197,20 @@ const SignUp = () => {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <InputLabel htmlFor="plan-selection">Plano</InputLabel>
+                                    <InputLabel htmlFor="plan-selection">Paket</InputLabel>
                                     <Field
                                         as={Select}
                                         variant="outlined"
                                         fullWidth
                                         id="plan-selection"
-                                        label="Plano"
+                                        label="Paket"
                                         name="planId"
                                         required
                                     >
                                         {plans.map((plan, key) => (
                                             <MenuItem key={key} value={plan.id}>
-                                                {plan.name} - Atendentes: {plan.users} - WhatsApp: {plan.connections} -
-                                                Filas: {plan.queues} - R$ {plan.value}
+                                                {plan.name} - Petugas: {plan.users} - WhatsApp: {plan.connections} -
+                                                Antrian: {plan.queues} - Rp {plan.value}
                                             </MenuItem>
                                         ))}
                                     </Field>

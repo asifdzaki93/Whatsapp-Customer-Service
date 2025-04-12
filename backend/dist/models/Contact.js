@@ -43,6 +43,12 @@ __decorate([
     __metadata("design:type", String)
 ], Contact.prototype, "email", void 0);
 __decorate([
+    (0, sequelize_typescript_1.AllowNull)(false),
+    (0, sequelize_typescript_1.Default)(false),
+    sequelize_typescript_1.Column,
+    __metadata("design:type", Boolean)
+], Contact.prototype, "ignoreMessages", void 0);
+__decorate([
     (0, sequelize_typescript_1.Default)(""),
     sequelize_typescript_1.Column,
     __metadata("design:type", String)

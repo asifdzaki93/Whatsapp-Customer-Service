@@ -53,7 +53,11 @@ const store = async (req, res) => {
     (0, SetTicketMessagesAsRead_1.default)(ticket);
     if (medias) {
         await Promise.all(medias.map(async (media, index) => {
-            await (0, SendWhatsAppMedia_1.default)({ media, ticket, body: Array.isArray(body) ? body[index] : body });
+            await (0, SendWhatsAppMedia_1.default)({
+                media,
+                ticket,
+                body: Array.isArray(body) ? body[index] : body
+            });
         }));
     }
     else {
@@ -118,6 +122,7 @@ const send = async (req, res) => {
             await (0, SendWhatsAppMessage_1.default)({ body: (0, Mustache_1.default)(body, contact), ticket });
             await ticket.update({
                 lastMessage: body,
+                status: "closed"
             });
         }
         if (messageData.closeTicket) {

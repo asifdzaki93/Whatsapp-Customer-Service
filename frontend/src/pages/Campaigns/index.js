@@ -202,15 +202,15 @@ const Campaigns = () => {
   const formatStatus = (val) => {
     switch (val) {
       case "INATIVA":
-        return "Inativa";
+        return "Tidak Aktif";
       case "PROGRAMADA":
-        return "Programada";
+        return "Dijadwalkan";
       case "EM_ANDAMENTO":
-        return "Em Andamento";
+        return "Sedang Berjalan";
       case "CANCELADA":
-        return "Cancelada";
+        return "Dibatalkan";
       case "FINALIZADA":
-        return "Finalizada";
+        return "Selesai";
       default:
         return val;
     }
@@ -363,7 +363,7 @@ const Campaigns = () => {
                       : "Não concluída"}
                   </TableCell>
                   <TableCell align="center">
-                    {campaign.confirmation ? "Habilitada" : "Desabilitada"}
+                    {campaign.confirmation ? "Aktif" : "Tidak Aktif"}
                   </TableCell>
                   <TableCell align="center">
                     {campaign.status === "EM_ANDAMENTO" && (

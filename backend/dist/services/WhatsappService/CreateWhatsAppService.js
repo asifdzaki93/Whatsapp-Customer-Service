@@ -32,10 +32,7 @@ const Whatsapp_1 = __importDefault(require("../../models/Whatsapp"));
 const Company_1 = __importDefault(require("../../models/Company"));
 const Plan_1 = __importDefault(require("../../models/Plan"));
 const AssociateWhatsappQueue_1 = __importDefault(require("./AssociateWhatsappQueue"));
-const CreateWhatsAppService = async ({ name, status = "OPENING", queueIds = [], greetingMessage, complationMessage, outOfHoursMessage, ratingMessage, isDefault = false, companyId, token = "", provider = "beta", 
-//timeSendQueue,
-//sendIdQueue,
-transferQueueId, timeToTransfer, promptId, maxUseBotQueues = 3, timeUseBotQueues = 0, expiresTicket = 0, expiresInactiveMessage = "" }) => {
+const CreateWhatsAppService = async ({ name, status = "OPENING", queueIds = [], greetingMessage, complationMessage, outOfHoursMessage, ratingMessage, isDefault = false, companyId, token = "", provider = "beta", transferQueueId, timeToTransfer, promptId, maxUseBotQueues = 3, timeUseBotQueues = 0, expiresTicket = 0, expiresInactiveMessage = "" }) => {
     const company = await Company_1.default.findOne({
         where: {
             id: companyId
@@ -118,8 +115,6 @@ transferQueueId, timeToTransfer, promptId, maxUseBotQueues = 3, timeUseBotQueues
         companyId,
         token,
         provider,
-        //timeSendQueue,
-        //sendIdQueue,
         transferQueueId,
         timeToTransfer,
         promptId,

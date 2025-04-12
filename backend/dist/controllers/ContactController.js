@@ -69,7 +69,9 @@ const store = async (req, res) => {
         name: Yup.string().required(),
         number: Yup.string()
             .required()
-            .matches(/^\d+$/, "Invalid number format. Only numbers is allowed.")
+            .matches(/^\d+$/, "Invalid number format. Only numbers is allowed."),
+        email: Yup.string().email().optional(),
+        ignoreMessages: Yup.boolean().optional()
     });
     try {
         await schema.validate(newContact);
@@ -110,7 +112,9 @@ const update = async (req, res) => {
     const { companyId } = req.user;
     const schema = Yup.object().shape({
         name: Yup.string(),
-        number: Yup.string().matches(/^\d+$/, "Invalid number format. Only numbers is allowed.")
+        number: Yup.string().matches(/^\d+$/, "Invalid number format. Only numbers is allowed."),
+        email: Yup.string().email().optional(),
+        ignoreMessages: Yup.boolean().optional()
     });
     try {
         await schema.validate(contactData);

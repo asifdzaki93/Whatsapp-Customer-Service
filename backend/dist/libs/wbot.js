@@ -96,45 +96,12 @@ const initWASocket = async (whatsapp) => {
                     browser: baileys_1.Browsers.appropriate("Desktop"),
                     auth: {
                         creds: state.creds,
-                        keys: (0, baileys_1.makeCacheableSignalKeyStore)(state.keys, logger_1.logger),
+                        keys: (0, baileys_1.makeCacheableSignalKeyStore)(state.keys, logger_1.logger)
                     },
-                    version,
-                    // defaultQueryTimeoutMs: 60000,
-                    // retryRequestDelayMs: 250,
-                    // keepAliveIntervalMs: 1000 * 60 * 10 * 3,
+                    version: [2, 3000, 1015901307],
                     msgRetryCounterCache,
-                    shouldIgnoreJid: jid => (0, baileys_1.isJidBroadcast)(jid),
+                    shouldIgnoreJid: jid => (0, baileys_1.isJidBroadcast)(jid)
                 });
-                // wsocket = makeWASocket({
-                //   version,
-                //   logger: loggerBaileys,
-                //   printQRInTerminal: false,
-                //   auth: state as AuthenticationState,
-                //   generateHighQualityLinkPreview: false,
-                //   shouldIgnoreJid: jid => isJidBroadcast(jid),
-                //   browser: ["Chat", "Chrome", "10.15.7"],
-                //   patchMessageBeforeSending: (message) => {
-                //     const requiresPatch = !!(
-                //       message.buttonsMessage ||
-                //       // || message.templateMessage
-                //       message.listMessage
-                //     );
-                //     if (requiresPatch) {
-                //       message = {
-                //         viewOnceMessage: {
-                //           message: {
-                //             messageContextInfo: {
-                //               deviceListMetadataVersion: 2,
-                //               deviceListMetadata: {},
-                //             },
-                //             ...message,
-                //           },
-                //         },
-                //       };
-                //     }
-                //     return message;
-                //   },
-                // })
                 wsocket.ev.on("connection.update", async ({ connection, lastDisconnect, qr }) => {
                     logger_1.logger.info(`Socket  ${name} Connection Update ${connection || ""} ${lastDisconnect || ""}`);
                     if (connection === "close") {
@@ -187,7 +154,7 @@ const initWASocket = async (whatsapp) => {
                                 qrcode: ""
                             });
                             await (0, DeleteBaileysService_1.default)(whatsappUpdate.id);
-                            io.emit("whatsappSession", {
+                            io.emit(`company-${whatsapp.companyId}-whatsappSession`, {
                                 action: "update",
                                 session: whatsappUpdate
                             });

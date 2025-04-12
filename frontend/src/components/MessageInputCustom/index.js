@@ -679,7 +679,7 @@ const MessageInputCustom = (props) => {
                     padding: "15px 0px",
                 }}
             >
-                <Typography>As mensagens recebidas deste contato estão sendo ignoradas</Typography>
+                <Typography>Pesan yang diterima dari kontak ini sedang diabaikan</Typography>
             </Paper>
         );
     }

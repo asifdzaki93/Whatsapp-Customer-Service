@@ -751,7 +751,7 @@ const MessagesList = ({ ticket, ticketId, isGroup }) => {
             });
             return viewMessagesList;
         } else {
-            return <div>Diga olá para seu novo contato!</div>;
+            return <div>Diga Halo para seu novo contato!</div>;
         }
     };
 

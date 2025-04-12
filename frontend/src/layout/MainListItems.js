@@ -299,7 +299,7 @@ const MainListItems = (props) => {
 	  
 	  <ListItemLink
         to="/todolist"
-        primary={i18n.t("Tarefas")}
+        primary={i18n.t("Daftar Tugas")}
         icon={<BorderColorIcon />}
       />
 
@@ -385,7 +385,7 @@ const MainListItems = (props) => {
                       <ListItemIcon>
                         <ListIcon />
                       </ListItemIcon>
-                      <ListItemText primary="Listagem" />
+                      <ListItemText primary="Daftar" />
                     </ListItem>
                     <ListItem
                       onClick={() => history.push("/contact-lists")}
@@ -394,7 +394,7 @@ const MainListItems = (props) => {
                       <ListItemIcon>
                         <PeopleIcon />
                       </ListItemIcon>
-                      <ListItemText primary="Listas de Contatos" />
+                      <ListItemText primary="Daftar Kontak" />
                     </ListItem>
                     <ListItem
                       onClick={() => history.push("/campaigns-config")}
@@ -403,7 +403,7 @@ const MainListItems = (props) => {
                       <ListItemIcon>
                         <SettingsOutlinedIcon />
                       </ListItemIcon>
-                      <ListItemText primary="Configurações" />
+                      <ListItemText primary="Pengaturan" />
                     </ListItem>
                   </List>
                 </Collapse>
@@ -486,7 +486,7 @@ const MainListItems = (props) => {
               </Hidden> 
               */}
               <Typography style={{ fontSize: "12px", padding: "10px", textAlign: "right", fontWeight: "bold" }}>
-                Versão: 4.0.0
+                Versi: 4.0.0
               </Typography>
             </React.Fragment>
             }

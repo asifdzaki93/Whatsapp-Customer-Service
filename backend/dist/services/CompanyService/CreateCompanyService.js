@@ -32,7 +32,7 @@ const Company_1 = __importDefault(require("../../models/Company"));
 const User_1 = __importDefault(require("../../models/User"));
 const Setting_1 = __importDefault(require("../../models/Setting"));
 const CreateCompanyService = async (companyData) => {
-    const { name, phone, email, status, planId, password, campaignsEnabled, dueDate, recurrence } = companyData;
+    const { name, phone, email, status, planId, campaignsEnabled, dueDate, recurrence } = companyData;
     const companySchema = Yup.object().shape({
         name: Yup.string()
             .min(2, "ERR_COMPANY_INVALID_NAME")
@@ -45,10 +45,22 @@ const CreateCompanyService = async (companyData) => {
                 return !companyWithSameName;
             }
             return false;
+        }),
+        email: Yup.string()
+            .email("ERR_COMPANY_INVALID_NAME")
+            .required("ERR_COMPANY_INVALID_NAME")
+            .test("Check-unique-email", "ERR_COMPANY_NAME_ALREADY_EXISTS", async (value) => {
+            if (value) {
+                const companyWithSameEmail = await User_1.default.findOne({
+                    where: { email: value }
+                });
+                return !companyWithSameEmail;
+            }
+            return false;
         })
     });
     try {
-        await companySchema.validate({ name });
+        await companySchema.validate({ name, email });
     }
     catch (err) {
         throw new AppError_1.default(err.message);
@@ -65,7 +77,7 @@ const CreateCompanyService = async (companyData) => {
     const user = await User_1.default.create({
         name: company.name,
         email: company.email,
-        password: companyData.password,
+        password: "123456",
         profile: "admin",
         companyId: company.id
     });
@@ -78,7 +90,7 @@ const CreateCompanyService = async (companyData) => {
             companyId: company.id,
             key: "asaas",
             value: ""
-        },
+        }
     });
     //tokenixc
     await Setting_1.default.findOrCreate({
@@ -90,7 +102,7 @@ const CreateCompanyService = async (companyData) => {
             companyId: company.id,
             key: "tokenixc",
             value: ""
-        },
+        }
     });
     //ipixc
     await Setting_1.default.findOrCreate({
@@ -102,7 +114,7 @@ const CreateCompanyService = async (companyData) => {
             companyId: company.id,
             key: "ipixc",
             value: ""
-        },
+        }
     });
     //ipmkauth
     await Setting_1.default.findOrCreate({
@@ -114,7 +126,7 @@ const CreateCompanyService = async (companyData) => {
             companyId: company.id,
             key: "ipmkauth",
             value: ""
-        },
+        }
     });
     //clientsecretmkauth
     await Setting_1.default.findOrCreate({
@@ -126,7 +138,7 @@ const CreateCompanyService = async (companyData) => {
             companyId: company.id,
             key: "clientsecretmkauth",
             value: ""
-        },
+        }
     });
     //clientidmkauth
     await Setting_1.default.findOrCreate({
@@ -138,7 +150,7 @@ const CreateCompanyService = async (companyData) => {
             companyId: company.id,
             key: "clientidmkauth",
             value: ""
-        },
+        }
     });
     //CheckMsgIsGroup
     await Setting_1.default.findOrCreate({
@@ -150,7 +162,7 @@ const CreateCompanyService = async (companyData) => {
             companyId: company.id,
             key: "enabled",
             value: ""
-        },
+        }
     });
     //CheckMsgIsGroup
     await Setting_1.default.findOrCreate({
@@ -162,7 +174,7 @@ const CreateCompanyService = async (companyData) => {
             companyId: company.id,
             key: "call",
             value: "disabled"
-        },
+        }
     });
     //scheduleType
     await Setting_1.default.findOrCreate({
@@ -174,31 +186,31 @@ const CreateCompanyService = async (companyData) => {
             companyId: company.id,
             key: "scheduleType",
             value: "disabled"
-        },
+        }
     });
     // Enviar mensagem ao aceitar ticket
     await Setting_1.default.findOrCreate({
         where: {
             companyId: company.id,
-            key: "sendGreetingAccepted",
+            key: "sendGreetingAccepted"
         },
         defaults: {
             companyId: company.id,
             key: "sendGreetingAccepted",
             value: "disabled"
-        },
+        }
     });
     // Enviar mensagem de transferencia
     await Setting_1.default.findOrCreate({
         where: {
             companyId: company.id,
-            key: "sendMsgTransfTicket",
+            key: "sendMsgTransfTicket"
         },
         defaults: {
             companyId: company.id,
             key: "sendMsgTransfTicket",
             value: "disabled"
-        },
+        }
     });
     //userRating
     await Setting_1.default.findOrCreate({
@@ -210,7 +222,7 @@ const CreateCompanyService = async (companyData) => {
             companyId: company.id,
             key: "userRating",
             value: "disabled"
-        },
+        }
     });
     //userRating
     await Setting_1.default.findOrCreate({
@@ -222,7 +234,7 @@ const CreateCompanyService = async (companyData) => {
             companyId: company.id,
             key: "chatBotType",
             value: "text"
-        },
+        }
     });
     await Setting_1.default.findOrCreate({
         where: {
@@ -233,7 +245,7 @@ const CreateCompanyService = async (companyData) => {
             companyId: company.id,
             key: "tokensgp",
             value: ""
-        },
+        }
     });
     await Setting_1.default.findOrCreate({
         where: {
@@ -244,7 +256,7 @@ const CreateCompanyService = async (companyData) => {
             companyId: company.id,
             key: "ipsgp",
             value: ""
-        },
+        }
     });
     await Setting_1.default.findOrCreate({
         where: {
@@ -255,7 +267,7 @@ const CreateCompanyService = async (companyData) => {
             companyId: company.id,
             key: "appsgp",
             value: ""
-        },
+        }
     });
     if (companyData.campaignsEnabled !== undefined) {
         const [setting, created] = await Setting_1.default.findOrCreate({
@@ -267,7 +279,7 @@ const CreateCompanyService = async (companyData) => {
                 companyId: company.id,
                 key: "campaignsEnabled",
                 value: `${campaignsEnabled}`
-            },
+            }
         });
         if (!created) {
             await setting.update({ value: `${campaignsEnabled}` });

@@ -38,10 +38,7 @@ const UpdateWhatsAppService = async ({ whatsappData, whatsappId, companyId }) =>
         status: Yup.string(),
         isDefault: Yup.boolean()
     });
-    const { name, status, isDefault, session, greetingMessage, complationMessage, outOfHoursMessage, ratingMessage, queueIds = [], token, 
-    //timeSendQueue,
-    //sendIdQueue = null,
-    transferQueueId, timeToTransfer, promptId, maxUseBotQueues, timeUseBotQueues, expiresTicket, expiresInactiveMessage } = whatsappData;
+    const { name, status, isDefault, session, greetingMessage, complationMessage, outOfHoursMessage, ratingMessage, queueIds, token, transferQueueId, timeToTransfer, promptId, maxUseBotQueues, timeUseBotQueues, expiresTicket, expiresInactiveMessage } = whatsappData;
     try {
         await schema.validate({ name, status, isDefault });
     }
@@ -76,8 +73,6 @@ const UpdateWhatsAppService = async ({ whatsappData, whatsappId, companyId }) =>
         isDefault,
         companyId,
         token,
-        //timeSendQueue,
-        //sendIdQueue,
         transferQueueId,
         timeToTransfer,
         promptId,
