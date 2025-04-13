@@ -59,10 +59,11 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "GENERATE_SOURCEMAP=false react-scripts build",
+        "build": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
         "builddev": "react-scripts build",
         "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "electron": "electron ."
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -80,6 +81,8 @@
         ]
     },
     "devDependencies": {
-        "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+        "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+        "cross-env": "^7.0.3",
+        "electron": "^35.1.5"
     }
 }
