@@ -5,7 +5,7 @@ import { ToastContainer } from "react-toastify";
 import LoggedInLayout from "../layout";
 import Dashboard from "../pages/Dashboard/";
 import TicketResponsiveContainer from "../pages/TicketResponsiveContainer";
-// import Signup from "../pages/Signup/";
+import Signup from "../pages/Signup/";
 import Login from "../pages/Login/";
 import Connections from "../pages/Connections/";
 import SettingsCustom from "../pages/SettingsCustom/";
@@ -18,7 +18,7 @@ import MessagesAPI from "../pages/MessagesAPI/";
 import Helps from "../pages/Helps/";
 import ContactLists from "../pages/ContactLists/";
 import ContactListItems from "../pages/ContactListItems/";
-// import Companies from "../pages/Companies/";
+import Companies from "../pages/Companies/";
 import QuickMessages from "../pages/QuickMessages/";
 import Kanban from "../pages/Kanban";
 import { AuthProvider } from "../context/Auth/AuthContext";
@@ -56,8 +56,8 @@ const Routes = () => {
         <TicketsContextProvider>
           <Switch>
             <Route exact path="/login" component={Login} />
-            {/* <Route exact path="/signup" component={Signup} /> */}
-            {/* <Route exact path="/create-company" component={Companies} /> */}
+            <Route exact path="/signup" component={Signup} /> 
+            <Route exact path="/create-company" component={Companies} /> 
             <WhatsAppsProvider>
               <LoggedInLayout>
                 <Route exact path="/" component={Dashboard} isPrivate />
