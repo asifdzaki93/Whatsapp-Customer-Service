@@ -825,7 +825,7 @@ const messages = {
             messagesInput: {
                 placeholderOpen: "Ketik pesan",
                 placeholderClosed: "Buka kembali atau terima tiket ini untuk mengirim pesan.",
-                signMessage: "Tanda tangan",
+                signMessage: "Tertanda",
             },
             contactDrawer: {
                 header: "Data Kontak",
