@@ -1,7 +1,7 @@
 class ApiConfig {
   // Ganti IP address sesuai dengan IP komputer Anda yang menjalankan backend
   static const String baseUrl =
-      'http://192.168.0.101:9003'; // IP komputer Anda dengan port 9003
+      'http://192.168.0.108:3003'; // IP komputer Anda dengan port 9003
 
   // Environment Token untuk Signup
   static const String envToken = '123456'; // Sesuaikan dengan token di backend
@@ -21,7 +21,7 @@ class ApiConfig {
 
   // WebSocket
   static const String wsUrl =
-      'ws://192.168.0.101:9003'; // IP komputer Anda dengan port 9003
+      'ws://192.168.0.108:3003'; // IP komputer Anda dengan port 9003
 
   static String fixMediaUrl(String? url) {
     if (url == null) return '';
