@@ -120,6 +120,9 @@ class DeviceContactListItem extends StatelessWidget {
               ),
               onSelected: (value) {
                 switch (value) {
+                  case 'message':
+                    // TODO: Navigate to message screen
+                    break;
                   case 'edit':
                     onEdit();
                     break;
@@ -129,6 +132,16 @@ class DeviceContactListItem extends StatelessWidget {
                 }
               },
               itemBuilder: (BuildContext context) => [
+                PopupMenuItem<String>(
+                  value: 'message',
+                  child: Row(
+                    children: [
+                      Icon(Icons.message, color: Colors.green, size: 20.w),
+                      SizedBox(width: 8.w),
+                      Text('Kirim Pesan'),
+                    ],
+                  ),
+                ),
                 PopupMenuItem<String>(
                   value: 'edit',
                   child: Row(
