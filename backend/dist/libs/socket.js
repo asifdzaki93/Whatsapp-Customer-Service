@@ -12,7 +12,8 @@ let io;
 const initIO = (httpServer) => {
     io = new socket_io_1.Server(httpServer, {
         cors: {
-            origin: process.env.FRONTEND_URL
+            //origin: process.env.FRONTEND_URL
+            origin: '*',
         }
     });
     io.on("connection", async (socket) => {
