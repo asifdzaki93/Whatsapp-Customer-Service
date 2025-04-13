@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:permission_handler/permission_handler.dart';
+import '../widgets/device_contact_list_item.dart';
 
 class DeviceContactsScreen extends StatefulWidget {
   const DeviceContactsScreen({super.key});
@@ -10,6 +12,7 @@ class DeviceContactsScreen extends StatefulWidget {
 
 class _DeviceContactsScreenState extends State<DeviceContactsScreen> {
   List<Contact>? _contacts;
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -18,14 +21,34 @@ class _DeviceContactsScreenState extends State<DeviceContactsScreen> {
   }
 
   Future<void> _fetchContacts() async {
-    // Memeriksa izin akses kontak
-    if (await FlutterContacts.requestPermission()) {
+    var status = await Permission.contacts.status;
+    if (status.isGranted) {
       final contacts = await FlutterContacts.getContacts(withProperties: true);
       setState(() {
         _contacts = contacts;
+        _isLoading = false;
       });
+    } else if (status.isDenied) {
+      status = await Permission.contacts.request();
+      if (status.isGranted) {
+        final contacts =
+            await FlutterContacts.getContacts(withProperties: true);
+        setState(() {
+          _contacts = contacts;
+          _isLoading = false;
+        });
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Izin akses kontak ditolak')),
+        );
+      }
     } else {
-      // Tampilkan pesan jika izin tidak diberikan
+      setState(() {
+        _isLoading = false;
+      });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Izin akses kontak ditolak')),
       );
@@ -34,24 +57,37 @@ class _DeviceContactsScreenState extends State<DeviceContactsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Kontak Perangkat'),
       ),
-      body: _contacts == null
+      body: _isLoading
           ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: _contacts!.length,
-              itemBuilder: (context, index) {
-                final contact = _contacts![index];
-                return ListTile(
-                  title: Text(contact.displayName),
-                  subtitle: Text(contact.phones.isNotEmpty
-                      ? contact.phones.first.number
-                      : 'Tanpa Nomor Telepon'),
-                );
-              },
-            ),
+          : _contacts == null || _contacts!.isEmpty
+              ? Center(
+                  child: Text(
+                    'Tidak ada kontak',
+                    style: TextStyle(color: theme.colorScheme.tertiary),
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: _contacts!.length,
+                  itemBuilder: (context, index) {
+                    final contact = _contacts![index];
+                    return DeviceContactListItem(
+                      key: ValueKey(contact.id),
+                      contact: contact,
+                      onEdit: () {
+                        // Tambahkan logika untuk mengedit kontak jika diperlukan
+                      },
+                      onDelete: () {
+                        // Tambahkan logika untuk menghapus kontak jika diperlukan
+                      },
+                    );
+                  },
+                ),
     );
   }
 }
