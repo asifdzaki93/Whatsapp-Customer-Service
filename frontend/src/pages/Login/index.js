@@ -14,8 +14,6 @@ import Container from "@material-ui/core/Container";
 import { i18n } from "../../translate/i18n";
 
 import { AuthContext } from "../../context/Auth/AuthContext";
-import logo from "../../assets/logo.png";
-import logoWhite from "../../assets/logo-white.png";
 
 const Copyright = () => {
     return (
@@ -95,7 +93,7 @@ const Login = () => {
                         <center>
                             <img
                                 style={{ margin: "0 auto", width: "70%" }}
-                                src={theme.mode === "light" ? logo : logoWhite}
+                                src={theme.mode === "light" ? "logo.png" : "logo-white.png"}
                                 alt="Logologin"
                             />
                         </center>

@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 
 let mainWindow;
@@ -12,14 +12,27 @@ function createWindow() {
         },
     });
 
+    // Remove the default menu bar
+    Menu.setApplicationMenu(null);
+
     mainWindow.loadFile(path.join(__dirname, 'build', 'index.html'));
+
+    mainWindow.webContents.on('did-finish-load', () => {
+        console.log("Page loaded successfully");
+    });
+    mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
+        console.error("Failed to load page:", errorDescription);
+    });
 
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
 }
 
-app.on('ready', createWindow);
+app.on('ready', () => {
+    console.log("Electron main process started");
+    createWindow();
+});
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
