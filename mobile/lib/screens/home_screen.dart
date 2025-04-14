@@ -133,10 +133,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.auto_awesome),
-              title: const Text('Template Pesan'),
+              title: const Text('Pesan Cepat'),
               onTap: () {
                 Navigator.pop(context);
-                // TODO: Navigate to Message Templates
+                // TODO: Navigate to Quick Messages
               },
             ),
             ListTile(
