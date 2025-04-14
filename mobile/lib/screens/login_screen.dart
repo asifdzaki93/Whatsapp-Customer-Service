@@ -222,26 +222,25 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         showDialog(
                           context: context,
-                          builder:
-                              (context) => AlertDialog(
-                                title: const Text('Syarat & Ketentuan'),
-                                content: SingleChildScrollView(
-                                  child: Text(
-                                    '1. Aplikasi ini digunakan untuk mengelola WhatsApp Business\n\n'
-                                    '2. Pengguna harus mematuhi kebijakan WhatsApp\n\n'
-                                    '3. Data pengguna akan disimpan dengan aman\n\n'
-                                    '4. Pengguna bertanggung jawab atas penggunaan aplikasi\n\n'
-                                    '5. Kami berhak menghentikan layanan jika melanggar ketentuan',
-                                    style: TextStyle(fontSize: 12.sp),
-                                  ),
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Text('Tutup'),
-                                  ),
-                                ],
+                          builder: (context) => AlertDialog(
+                            title: const Text('Syarat & Ketentuan'),
+                            content: SingleChildScrollView(
+                              child: Text(
+                                '1. Aplikasi ini digunakan untuk mengelola WhatsApp Business\n\n'
+                                '2. Pengguna harus mematuhi kebijakan WhatsApp\n\n'
+                                '3. Data pengguna akan disimpan dengan aman\n\n'
+                                '4. Pengguna bertanggung jawab atas penggunaan aplikasi\n\n'
+                                '5. Kami berhak menghentikan layanan jika melanggar ketentuan',
+                                style: TextStyle(fontSize: 12.sp),
                               ),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('Tutup'),
+                              ),
+                            ],
+                          ),
                         );
                       },
                       child: Text(
@@ -261,10 +260,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(12.r),
                     ),
                   ),
-                  child:
-                      _isLoading
-                          ? const CircularProgressIndicator()
-                          : Text('Masuk', style: TextStyle(fontSize: 16.sp)),
+                  child: _isLoading
+                      ? const CircularProgressIndicator()
+                      : Text('Masuk', style: TextStyle(fontSize: 16.sp)),
                 ),
                 SizedBox(height: 16.h),
                 // Register Link

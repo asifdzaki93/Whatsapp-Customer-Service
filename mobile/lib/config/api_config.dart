@@ -1,7 +1,7 @@
 class ApiConfig {
   // Ganti IP address sesuai dengan IP komputer Anda yang menjalankan backend
   static const String baseUrl =
-      'http://192.168.0.108:3003'; // IP komputer Anda dengan port 9003
+      'http://192.168.100.164:3003'; // IP komputer Anda dengan port 9003
 
   // Environment Token untuk Signup
   static const String envToken = '123456'; // Sesuaikan dengan token di backend
@@ -21,7 +21,7 @@ class ApiConfig {
 
   // WebSocket
   static const String wsUrl =
-      'ws://192.168.0.108:3003'; // IP komputer Anda dengan port 9003
+      'ws://192.168.100.164:3003'; // IP komputer Anda dengan port 9003
 
   static String fixMediaUrl(String? url) {
     if (url == null) return '';
@@ -38,13 +38,13 @@ class ApiConfig {
       // Ganti IP lokal atau localhost dengan IP yang benar
       if (fixedUrl.contains('192.168.100.164')) {
         fixedUrl = fixedUrl.replaceAll(
-          '192.168.100.164:9003',
+          '192.168.100.164:3003',
           baseUrl.replaceAll('http://', ''),
         );
       }
       if (fixedUrl.contains('localhost')) {
         fixedUrl = fixedUrl.replaceAll(
-          'localhost:9003',
+          'localhost:3003',
           baseUrl.replaceAll('http://', ''),
         );
       }
