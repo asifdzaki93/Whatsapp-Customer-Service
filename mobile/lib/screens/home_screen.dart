@@ -10,6 +10,7 @@ import 'tickets_screen.dart';
 import 'files_screen.dart';
 import 'connection_screen.dart';
 import 'device_contacts_screen.dart';
+import 'quick_messages_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -136,7 +137,12 @@ class _HomeScreenState extends State<HomeScreen> {
               title: const Text('Pesan Cepat'),
               onTap: () {
                 Navigator.pop(context);
-                // TODO: Navigate to Quick Messages
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const QuickMessagesScreen(),
+                  ),
+                );
               },
             ),
             ListTile(
