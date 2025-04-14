@@ -14,8 +14,8 @@ import Container from "@material-ui/core/Container";
 import { i18n } from "../../translate/i18n";
 
 import { AuthContext } from "../../context/Auth/AuthContext";
-const logo = require("../../assets/logo.png");
-const logoWhite = require("../../assets/logo-white.png");
+import logo from "../../assets/logo.png";
+import logoWhite from "../../assets/logo-white.png";
 
 const Copyright = () => {
     return (
@@ -86,9 +86,6 @@ const Login = () => {
         handleLogin(user);
     };
 
-    console.log("Current theme mode:", theme.mode);
-    console.log("Logo path:", theme.mode === "light" ? logo : logoWhite);
-
     return (
         <div className={classes.root}>
             <Container component="main" maxWidth="xs">
@@ -136,7 +133,7 @@ const Login = () => {
                         <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                             {i18n.t("login.buttons.submit")}
                         </Button>
-                         <Grid container>
+                        {/* <Grid container>
 						<Grid item>
 							<Link
 								href="#"
@@ -147,7 +144,7 @@ const Login = () => {
 								{i18n.t("login.buttons.register")}
 							</Link>
 						</Grid>
-					  </Grid>
+					  </Grid> */}
                     </form>
                 </div>
             </Container>
