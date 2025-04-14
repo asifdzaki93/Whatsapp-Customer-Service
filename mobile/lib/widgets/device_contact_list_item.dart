@@ -69,6 +69,14 @@ class DeviceContactListItem extends StatelessWidget {
     );
   }
 
+  String _formatPhoneNumber(String phoneNumber) {
+    phoneNumber = phoneNumber.replaceAll(RegExp(r'[+\-\s]'), '');
+    if (phoneNumber.startsWith('0')) {
+      phoneNumber = '62' + phoneNumber.substring(1);
+    }
+    return phoneNumber;
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -101,7 +109,7 @@ class DeviceContactListItem extends StatelessWidget {
                   SizedBox(height: 2.h),
                   Text(
                     contact.phones.isNotEmpty
-                        ? contact.phones.first.number
+                        ? _formatPhoneNumber(contact.phones.first.number)
                         : 'Tanpa Nomor Telepon',
                     style: TextStyle(
                       fontSize: 13.sp,
